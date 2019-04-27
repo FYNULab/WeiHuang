@@ -1,0 +1,251 @@
+BL51 BANKED LINKER/LOCATER V5.03                                                        07/28/2012  10:27:17  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V5.03, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE main.obj TO stepmotor RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  main.obj (MAIN)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  stepmotor (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0003H     UNIT         ?DT?MAIN
+                    000BH     0015H                  *** GAP ***
+            BIT     0020H.0   0000H.2   UNIT         ?BI?MAIN
+                    0020H.2   0000H.6                *** GAP ***
+            IDATA   0021H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     005AH     UNIT         ?PR?STEPMOTOR?MAIN
+            CODE    005DH     004EH     UNIT         ?PR?KEYHANDLE?MAIN
+            CODE    00ABH     0048H     UNIT         ?PR?_SMG_SHOW?MAIN
+            CODE    00F3H     002EH     UNIT         ?PR?_DELAY?MAIN
+            CODE    0121H     0029H     UNIT         ?PR?KEYSCAN?MAIN
+            CODE    014AH     0019H     UNIT         ?PR?MAIN?MAIN
+            CODE    0163H     0010H     UNIT         ?CO?MAIN
+            CODE    0173H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   stepmotor (MAIN)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN
+  +--> ?PR?KEYSCAN?MAIN
+  +--> ?PR?KEYHANDLE?MAIN
+  +--> ?PR?STEPMOTOR?MAIN
+  +--> ?PR?_SMG_SHOW?MAIN
+
+?PR?KEYSCAN?MAIN
+  +--> ?PR?_DELAY?MAIN
+
+?PR?STEPMOTOR?MAIN
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  10:27:17  PAGE 2
+
+
+  +--> ?PR?_DELAY?MAIN
+
+?PR?_SMG_SHOW?MAIN
+  +--> ?CO?MAIN
+  +--> ?PR?_DELAY?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  stepmotor (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:0008H         PUBLIC        speed
+  C:005DH         PUBLIC        keyHandle
+  C:014AH         PUBLIC        main
+  C:0163H         PUBLIC        dis
+  B:00A0H.6       PUBLIC        LE1
+  B:00A0H.7       PUBLIC        LE2
+  B:0020H.0       PUBLIC        stop
+  D:000AH         PUBLIC        keyValue
+  C:00ABH         PUBLIC        _smg_show
+  C:0121H         PUBLIC        keyScan
+  B:0020H.1       PUBLIC        zf
+  C:0101H         PUBLIC        _delay
+  C:0003H         PUBLIC        stepmotor
+  C:00FDH         SYMBOL        L?0040
+  -------         PROC          L?0039
+  -------         ENDPROC       L?0039
+  C:00FDH         SYMBOL        L?0040
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        time
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:0101H         LINE#         41
+  C:0101H         LINE#         42
+  C:0101H         LINE#         44
+  C:010BH         LINE#         45
+  C:0120H         LINE#         46
+  -------         ENDPROC       _DELAY
+  -------         PROC          _SMG_SHOW
+  D:0001H         SYMBOL        n
+  C:00ABH         LINE#         51
+  C:00ADH         LINE#         52
+  C:00ADH         LINE#         54
+  C:00B0H         LINE#         55
+  C:00B2H         LINE#         56
+  C:00B4H         LINE#         57
+  C:00BFH         LINE#         58
+  C:00C1H         LINE#         59
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  10:27:17  PAGE 3
+
+
+  C:00C3H         LINE#         60
+  C:00CAH         LINE#         62
+  C:00D1H         LINE#         64
+  C:00D4H         LINE#         65
+  C:00D6H         LINE#         66
+  C:00D8H         LINE#         67
+  C:00E2H         LINE#         68
+  C:00E4H         LINE#         69
+  C:00E6H         LINE#         70
+  C:00EBH         LINE#         72
+  C:00F2H         LINE#         74
+  -------         ENDPROC       _SMG_SHOW
+  -------         PROC          KEYSCAN
+  C:0121H         LINE#         78
+  C:0121H         LINE#         79
+  C:0121H         LINE#         80
+  C:0124H         LINE#         81
+  C:012CH         LINE#         82
+  C:012CH         LINE#         83
+  C:0133H         LINE#         84
+  C:013BH         LINE#         85
+  C:0141H         LINE#         86
+  C:0149H         LINE#         87
+  C:0149H         LINE#         88
+  -------         ENDPROC       KEYSCAN
+  -------         PROC          KEYHANDLE
+  C:005DH         LINE#         92
+  C:005DH         LINE#         93
+  C:005DH         LINE#         94
+  C:0073H         LINE#         95
+  C:0073H         LINE#         96
+  C:0073H         LINE#         97
+  C:0073H         LINE#         98
+  C:0075H         LINE#         99
+  C:0076H         LINE#         100
+  C:0076H         LINE#         101
+  C:0076H         LINE#         102
+  C:0076H         LINE#         103
+  C:008AH         LINE#         106
+  C:008AH         LINE#         107
+  C:008AH         LINE#         108
+  C:008AH         LINE#         109
+  C:008CH         LINE#         110
+  C:008DH         LINE#         111
+  C:008DH         LINE#         112
+  C:008DH         LINE#         113
+  C:008DH         LINE#         114
+  C:00A1H         LINE#         115
+  C:00A7H         LINE#         116
+  C:00A8H         LINE#         117
+  C:00A8H         LINE#         118
+  C:00A8H         LINE#         119
+  C:00A8H         LINE#         120
+  C:00AAH         LINE#         121
+  C:00AAH         LINE#         122
+  C:00AAH         LINE#         123
+  C:00AAH         LINE#         124
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  10:27:17  PAGE 4
+
+
+  C:00AAH         LINE#         125
+  C:00AAH         LINE#         126
+  -------         ENDPROC       KEYHANDLE
+  -------         PROC          STEPMOTOR
+  C:0003H         LINE#         130
+  C:0003H         LINE#         131
+  C:0003H         LINE#         132
+  C:0006H         LINE#         133
+  C:0006H         LINE#         134
+  C:0009H         LINE#         135
+  C:0009H         LINE#         136
+  C:000CH         LINE#         137
+  C:000CH         LINE#         138
+  C:000CH         LINE#         139
+  C:000FH         LINE#         140
+  C:0012H         LINE#         141
+  C:0015H         LINE#         142
+  C:0018H         LINE#         143
+  C:001BH         LINE#         144
+  C:001EH         LINE#         145
+  C:0021H         LINE#         146
+  C:0024H         LINE#         147
+  C:0027H         LINE#         148
+  C:002AH         LINE#         149
+  C:002DH         LINE#         150
+  C:0030H         LINE#         151
+  C:0030H         LINE#         152
+  C:0032H         LINE#         154
+  C:0032H         LINE#         155
+  C:0035H         LINE#         156
+  C:0038H         LINE#         157
+  C:003BH         LINE#         158
+  C:003EH         LINE#         159
+  C:0041H         LINE#         160
+  C:0044H         LINE#         161
+  C:0047H         LINE#         162
+  C:004AH         LINE#         163
+  C:004DH         LINE#         164
+  C:0050H         LINE#         165
+  C:0053H         LINE#         166
+  C:0053H         LINE#         167
+  C:0053H         LINE#         168
+  C:0056H         LINE#         169
+  C:0059H         LINE#         170
+  C:005CH         LINE#         171
+  C:005CH         LINE#         172
+  C:005CH         LINE#         173
+  -------         ENDPROC       STEPMOTOR
+  -------         PROC          MAIN
+  C:014AH         LINE#         177
+  C:014AH         LINE#         178
+  C:014AH         LINE#         179
+  C:0150H         LINE#         180
+  C:0150H         LINE#         181
+  C:0153H         LINE#         182
+  C:0156H         LINE#         183
+  C:0159H         LINE#         184
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  10:27:17  PAGE 5
+
+
+  C:015CH         LINE#         185
+  C:0161H         LINE#         186
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+Program Size: data=12.2 xdata=0 code=383
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

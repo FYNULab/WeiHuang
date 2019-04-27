@@ -1,0 +1,5 @@
+"main.obj",
+"1602.obj",
+"ds1302.obj" 
+TO "DS1302_1602" 
+RAMSIZE(256) 

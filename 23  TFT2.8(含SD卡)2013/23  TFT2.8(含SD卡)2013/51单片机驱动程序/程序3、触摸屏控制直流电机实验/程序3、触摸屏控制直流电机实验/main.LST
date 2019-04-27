@@ -1,0 +1,446 @@
+C51 COMPILER V7.06   MAIN                                                                  09/25/2013 08:06:46 PAGE 1   
+
+
+C51 COMPILER V7.06, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: D:\Program Files (x86)\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+stmt level    source
+
+   1          //公司：合肥炜煌电子有限公司
+   2          //网址：www.hfwhdz.com
+   3          /*===================================================================================================  
+   4          工程名称：  Ex3 TP_MOT
+   5          功能描述：  触摸控制直流电机调速
+   6          硬件连接：  查看和修改接口定义在NBCTFT.C与TP.C中,请仔细检查接口连线后上电测试。
+   7                ----------------------------------------
+   8               |     --------TFT控制接线----------      |
+   9               |          D10~D17   接   P0             |
+  10               |          RS        接   P2^5;          |
+  11               |                  RW        接   P2^4;          |
+  12               |                  RD        接   P2^3;          |
+  13               |              CS        接   P2^2;              |
+  14               |                  RES       接   P2^1;          |
+  15               |                                        |
+  16               |                  LE        接   P2^0;          |
+  17               |                                        |
+  18               |     --------电源供电接线---------      |
+  19               |          GND       接   电源负极       |
+  20               |          VIN       接   电源正极(5V)   |
+  21               |----------------------------------------|
+  22               | 如果在NBC开发板上使用，以上线不需用飞  |
+  23               | 线连接，直接插接在开发板上的12864接口  |
+  24               | 后只需连接以下接线                     |
+  25               |----------------------------------------|
+  26               |                                        |
+  27               |     --------触摸控制接线---------      |
+  28               |          PEN       接   P3^2;          |
+  29               |                  TPDO      接   P3^3;          |
+  30               |                  BUSY      接   P3^4;          |
+  31               |              TPDI      接   P3^5;              |
+  32               |                  TPCS      接   P3^6;          |
+  33                   |                      CLK       接   P3^7;          |
+  34               |                                        |
+  35               |     --------直流电机控制接线---------  |
+  36               |          J18_DCMT  接   J8_0(P1^0);        |
+  37                    ----------------------------------------
+  38          维护记录：  2012-3-14
+  39          ====================================================================================================*/
+  40          
+  41          //******************包含头文件***************************
+  42          #include <reg51.h>
+  43          #include <TP.H>
+  44          #include <NBCTFT.H>
+  45          
+  46          
+  47          //**************触摸控制端口定义********************                                                                                                                                                               
+  48          sbit Penirq =P3^2;          //触碰触摸屏时，ADS7843Penirq引脚由未触摸时的高电平变为低电平
+  49          sbit Dcout=P1^0;            //定义电机控制IO
+  50          
+  51          //******************全局变量***************************
+  52          unsigned int Device_code;
+  53          
+  54          /* LCD color */
+  55          #define White          0xFFFF
+C51 COMPILER V7.06   MAIN                                                                  09/25/2013 08:06:46 PAGE 2   
+
+  56          #define Black          0x0000
+  57          #define Blue           0x001F
+  58          #define Blue2          0x051F
+  59          #define Red            0xF800
+  60          #define Magenta        0xF81F
+  61          #define Green          0x07E0
+  62          #define Cyan           0x7FFF
+  63          #define Yellow         0xFFE0
+  64          
+  65          unsigned char temp,speed,num;
+  66          
+  67          
+  68          
+  69          //**************************************************************************************************
+  70          //定时器中断子程序
+  71          //**************************************************************************************************
+  72          t0() interrupt 1 using 1
+  73          {
+  74   1        TH0=0xfc;               //重置定时器初值,定时1ms
+  75   1        TL0=0x18;
+  76   1         if(num==speed)Dcout=0; //如果进入中断speed次时，Dcout置低，占空比=speed/10,speed越大,则转速越快
+  77   1        num++;                  //次数加1
+  78   1         if(num==10)            //满10次为一周期，即T=10次*1ms=10ms
+  79   1          {
+  80   2           num=0;               //重置num为0,开始下一周期
+  81   2           Dcout=1;             //Dcout置高
+  82   2          }
+  83   1      }
+  84          //**************************************************************************************************
+  85          //定时器初始化
+  86          //**************************************************************************************************
+  87          T0_init()
+  88          {
+  89   1         TMOD=0x01;    //0b00000001  用的是定时器0，工作在方式1（16位寄存器）
+  90   1                       //要实现定时1ms,(65536-T0)x12/12000000=0.001s得T0=15536即0xfc18
+  91   1         TH0=0xfc;     //装定时器初值高8位
+  92   1         TL0=0x18;     //装定时器初值低8位
+  93   1         TR0=1;        //启动定时器0
+  94   1         ET0=1;        //开定时器0中断
+  95   1         EA=1;         //开总中断
+  96   1      }
+  97          
+  98          
+  99          //**************************************************************************************************
+ 100          //TFT界面初始化
+ 101          //**************************************************************************************************
+ 102          void init_interface()
+ 103          {
+ 104   1          CLR_Screen(Blue);                                 //用背景色清屏
+ 105   1      
+ 106   1          Show_RGB(14,46,272,304,Magenta);                  //0
+ 107   1          LCD_PutString(28,280,"0",Black,Magenta);
+ 108   1      
+ 109   1              Show_RGB(74,166,272,304,Magenta);                 //Enter
+ 110   1          LCD_PutString(100,280,"Enter",Black,Magenta);
+ 111   1      
+ 112   1      
+ 113   1              Show_RGB(14,46,208,240,Magenta);                  //1
+ 114   1          LCD_PutString(28,216,"1",Black,Magenta);
+ 115   1      
+ 116   1              Show_RGB(14,46,144,176,Magenta);                  //4
+ 117   1          LCD_PutString(28,152,"4",Black,Magenta);
+C51 COMPILER V7.06   MAIN                                                                  09/25/2013 08:06:46 PAGE 3   
+
+ 118   1      
+ 119   1              Show_RGB(14,46,80,112,Magenta);                   //7
+ 120   1          LCD_PutString(28,88,"7",Black,Magenta);
+ 121   1      
+ 122   1      
+ 123   1      
+ 124   1              Show_RGB(74,106,208,240,Magenta);                 //2
+ 125   1          LCD_PutString(88,216,"2",Black,Magenta);
+ 126   1      
+ 127   1              Show_RGB(74,106,144,176,Magenta);                 //5
+ 128   1          LCD_PutString(88,152,"5",Black,Magenta);
+ 129   1      
+ 130   1              Show_RGB(74,106,80,112,Magenta);                  //8
+ 131   1          LCD_PutString(88,88,"8",Black,Magenta);
+ 132   1      
+ 133   1      
+ 134   1      
+ 135   1              Show_RGB(134,166,208,240,Magenta);                //3
+ 136   1          LCD_PutString(148,216,"3",Black,Magenta);
+ 137   1      
+ 138   1              Show_RGB(134,166,144,176,Magenta);                //6
+ 139   1          LCD_PutString(148,152,"6",Black,Magenta);
+ 140   1      
+ 141   1              Show_RGB(134,166,80,112,Magenta);                 //9
+ 142   1          LCD_PutString(148,88,"9",Black,Magenta);
+ 143   1      
+ 144   1      
+ 145   1      
+ 146   1              Show_RGB(194,226,80,176,Magenta);                 //+
+ 147   1          LCD_PutString(206,120,"+",Black,Magenta);
+ 148   1      
+ 149   1              Show_RGB(194,226,208,304,Magenta);                //-
+ 150   1          LCD_PutString(206,248,"-",Black,Magenta);
+ 151   1      
+ 152   1      
+ 153   1      
+ 154   1              LCD_PutString(44,16,"NBC电机控制演示系统",White,Blue);
+ 155   1              LCD_PutString(32,40,"The speed now is : ___",White,Blue);
+ 156   1      
+ 157   1                                   
+ 158   1          LCD_PutChar(192, 38, 0x30+speed, Red,Blue);       //显示开机速度等级值
+ 159   1      } 
+ 160          
+ 161          //**************************************************************************************************
+ 162          //触摸键盘扫描控制函数
+ 163          //**************************************************************************************************
+ 164          void key_scan()
+ 165          {
+ 166   1          if((lx>14)&&(lx<46)&&(ly>272)&&(ly<304))           //按下0
+ 167   1              {
+ 168   2                Show_RGB(14,46,272,304,Red);                     //按下部分变色突出显示
+ 169   2                LCD_PutString(28,280,"0",Black,Red);      
+ 170   2        
+ 171   2                temp=0;                                          //速度等级赋给临时变量temp,直到Enter按下后才赋给speed
+ 172   2      
+ 173   2                LCD_PutChar(192, 38, 0x30+temp, Black,Magenta);  //显示速度等级值
+ 174   2      
+ 175   2                while(Penirq==0);                                //等待触摸释放
+ 176   2                Show_RGB(14,46,272,304,Magenta);                 //释放后恢复显示颜色
+ 177   2            LCD_PutString(28,280,"0",Black,Magenta);
+ 178   2      
+ 179   2              }
+C51 COMPILER V7.06   MAIN                                                                  09/25/2013 08:06:46 PAGE 4   
+
+ 180   1      
+ 181   1      
+ 182   1      
+ 183   1              if((lx>14)&&(lx<46)&&(ly>208)&&(ly<240))           //按下1
+ 184   1              {
+ 185   2                Show_RGB(14,46,208,240,Red);                     //按下部分变色突出显示
+ 186   2            LCD_PutString(28,216,"1",Black,Red);
+ 187   2        
+ 188   2                temp=1;                                          //速度等级赋给临时变量temp,直到Enter按下后才赋给speed
+ 189   2      
+ 190   2                LCD_PutChar(192, 38, 0x30+temp, Black,Magenta);  //显示速度等级值
+ 191   2      
+ 192   2                while(Penirq==0);                                //等待触摸释放
+ 193   2                Show_RGB(14,46,208,240,Magenta);                 //释放后恢复显示颜色
+ 194   2            LCD_PutString(28,216,"1",Black,Magenta); 
+ 195   2      
+ 196   2              }
+ 197   1      
+ 198   1      
+ 199   1          if((lx>74)&&(lx<106)&&(ly>208)&&(ly<240))          //按下2
+ 200   1              {
+ 201   2                Show_RGB(74,106,208,240,Red);                    //按下部分变色突出显示
+ 202   2            LCD_PutString(88,216,"2",Black,Red);
+ 203   2        
+ 204   2                temp=2;                                          //速度等级赋给临时变量temp,直到Enter按下后才赋给speed
+ 205   2      
+ 206   2                LCD_PutChar(192, 38, 0x30+temp, Black,Magenta);  //显示速度等级值
+ 207   2      
+ 208   2                while(Penirq==0);                                //等待触摸释放
+ 209   2                Show_RGB(74,106,208,240,Magenta);                //释放后恢复显示颜色
+ 210   2            LCD_PutString(88,216,"2",Black,Magenta); 
+ 211   2      
+ 212   2              }
+ 213   1      
+ 214   1      
+ 215   1      
+ 216   1          if((lx>134)&&(lx<166)&&(ly>208)&&(ly<240))          //按下3
+ 217   1              {
+ 218   2                Show_RGB(134,166,208,240,Red);                    //按下部分变色突出显示
+ 219   2            LCD_PutString(148,216,"3",Black,Red);
+ 220   2        
+ 221   2                temp=3;                                          //速度等级赋给临时变量temp,直到Enter按下后才赋给speed
+ 222   2      
+ 223   2                LCD_PutString(192,38,"3",Black,Magenta);         //显示速度等级值
+ 224   2      
+ 225   2                while(Penirq==0);                                //等待触摸释放
+ 226   2                Show_RGB(134,166,208,240,Magenta);               //释放后恢复显示颜色
+ 227   2            LCD_PutString(148,216,"3",Black,Magenta);
+ 228   2      
+ 229   2              }
+ 230   1      
+ 231   1      
+ 232   1      
+ 233   1              if((lx>14)&&(lx<46)&&(ly>144)&&(ly<176))           //按下4
+ 234   1              {
+ 235   2                Show_RGB(14,46,144,176,Red);                     //按下部分变色突出显示
+ 236   2            LCD_PutString(28,152,"4",Black,Red);
+ 237   2        
+ 238   2                temp=4;                                          //速度等级赋给临时变量temp,直到Enter按下后才赋给speed
+ 239   2      
+ 240   2                LCD_PutChar(192, 38, 0x30+temp, Black,Magenta); //显示速度等级值
+ 241   2      
+C51 COMPILER V7.06   MAIN                                                                  09/25/2013 08:06:46 PAGE 5   
+
+ 242   2                while(Penirq==0);                                //等待触摸释放
+ 243   2                Show_RGB(14,46,144,176,Magenta);                 //释放后恢复显示颜色
+ 244   2            LCD_PutString(28,152,"4",Black,Magenta);
+ 245   2      
+ 246   2              }
+ 247   1      
+ 248   1      
+ 249   1      
+ 250   1              if((lx>74)&&(lx<106)&&(ly>144)&&(ly<176))           //按下5
+ 251   1              {
+ 252   2                Show_RGB(74,106,144,176,Red);                     //按下部分变色突出显示    
+ 253   2            LCD_PutString(88,152,"5",Black,Red);
+ 254   2      
+ 255   2                temp=5;                                           //速度等级赋给临时变量temp,直到Enter按下后才赋给speed
+ 256   2      
+ 257   2                LCD_PutChar(192, 38, 0x30+temp, Black,Magenta);   //显示速度等级值
+ 258   2      
+ 259   2                while(Penirq==0);                                 //等待触摸释放
+ 260   2                Show_RGB(74,106,144,176,Magenta);                 //释放后恢复显示颜色                
+ 261   2            LCD_PutString(88,152,"5",Black,Magenta);
+ 262   2      
+ 263   2              }
+ 264   1      
+ 265   1      
+ 266   1      
+ 267   1      
+ 268   1              if((lx>134)&&(lx<166)&&(ly>144)&&(ly<176))          //按下6
+ 269   1              {
+ 270   2                Show_RGB(134,166,144,176,Red);                    //按下部分变色突出显示    
+ 271   2            LCD_PutString(148,152,"6",Black,Red);
+ 272   2      
+ 273   2                temp=6;                                           //速度等级赋给临时变量temp,直到Enter按下后才赋给speed
+ 274   2      
+ 275   2                LCD_PutChar(192, 38, 0x30+temp, Black,Magenta);   //显示速度等级值
+ 276   2      
+ 277   2                while(Penirq==0);                                 //等待触摸释放
+ 278   2                Show_RGB(134,166,144,176,Magenta);                //释放后恢复显示颜色 
+ 279   2            LCD_PutString(148,152,"6",Black,Magenta);
+ 280   2      
+ 281   2              }
+ 282   1      
+ 283   1      
+ 284   1      
+ 285   1              if((lx>14)&&(lx<46)&&(ly>80)&&(ly<112))             //按下7
+ 286   1              {
+ 287   2                Show_RGB(14,46,80,112,Red);                       //按下部分变色突出显示    
+ 288   2            LCD_PutString(28,88,"7",Black,Red);
+ 289   2      
+ 290   2                temp=7;                                           //速度等级赋给临时变量temp,直到Enter按下后才赋给speed
+ 291   2      
+ 292   2                LCD_PutChar(192, 38, 0x30+temp, Black,Magenta);   //显示速度等级值
+ 293   2      
+ 294   2                while(Penirq==0);                                 //等待触摸释放
+ 295   2                Show_RGB(14,46,80,112,Magenta);                   //释放后恢复显示颜色 
+ 296   2            LCD_PutString(28,88,"7",Black,Magenta);
+ 297   2      
+ 298   2              }
+ 299   1      
+ 300   1      
+ 301   1      
+ 302   1              if((lx>74)&&(lx<106)&&(ly>80)&&(ly<112))            //按下8
+ 303   1              {
+C51 COMPILER V7.06   MAIN                                                                  09/25/2013 08:06:46 PAGE 6   
+
+ 304   2                Show_RGB(74,106,80,112,Red);                      //按下部分变色突出显示    
+ 305   2            LCD_PutString(88,88,"8",Black,Red);
+ 306   2      
+ 307   2                temp=8;                                           //速度等级赋给临时变量temp,直到Enter按下后才赋给speed
+ 308   2      
+ 309   2                LCD_PutChar(192, 38, 0x30+temp, Black,Magenta);   //显示速度等级值
+ 310   2      
+ 311   2                while(Penirq==0);                                 //等待触摸释放
+ 312   2                Show_RGB(74,106,80,112,Magenta);                  //释放后恢复显示颜色 
+ 313   2            LCD_PutString(88,88,"8",Black,Magenta);
+ 314   2      
+ 315   2              }
+ 316   1      
+ 317   1      
+ 318   1      
+ 319   1              if((lx>134)&&(lx<166)&&(ly>80)&&(ly<112))           //按下9
+ 320   1              {
+ 321   2                Show_RGB(134,166,80,112,Red);                     //按下部分变色突出显示    
+ 322   2            LCD_PutString(148,88,"9",Black,Red);
+ 323   2      
+ 324   2                temp=9;                                           //速度等级赋给临时变量temp,直到Enter按下后才赋给speed
+ 325   2      
+ 326   2                LCD_PutChar(192, 38, 0x30+temp, Black,Magenta);   //显示速度等级值
+ 327   2      
+ 328   2                while(Penirq==0);                                 //等待触摸释放
+ 329   2                Show_RGB(134,166,80,112,Magenta);                 //释放后恢复显示颜色
+ 330   2            LCD_PutString(148,88,"9",Black,Magenta);
+ 331   2      
+ 332   2              }
+ 333   1      
+ 334   1      
+ 335   1      
+ 336   1      
+ 337   1      
+ 338   1              if((lx>74)&&(lx<166)&&(ly>272)&&(ly<304))           //按下Enter
+ 339   1              {                  
+ 340   2                Show_RGB(74,166,272,304,Red);                     //按下部分变色突出显示 
+ 341   2            LCD_PutString(100,280,"Enter",Black,Red);
+ 342   2      
+ 343   2                speed=temp;                                       //速度等级赋给speed
+ 344   2                LCD_PutChar(192, 38, 0x30+speed, Red,Blue);     //显示速度等级值
+ 345   2      
+ 346   2                while(Penirq==0);                                 //等待触摸释放
+ 347   2                Show_RGB(74,166,272,304,Magenta);                 //释放后恢复显示颜色
+ 348   2            LCD_PutString(100,280,"Enter",Black,Magenta);
+ 349   2      
+ 350   2              }
+ 351   1      
+ 352   1      
+ 353   1      
+ 354   1              
+ 355   1              if((lx>194)&&(lx<226)&&(ly>80)&&(ly<176))           //按下+
+ 356   1              {
+ 357   2                Show_RGB(194,226,80,176,Red);                     //按下部分变色突出显示    
+ 358   2            LCD_PutString(206,120,"+",Black,Red);
+ 359   2           
+ 360   2                if(speed<9)speed++;                               //速度等级赋给临时变量temp,直到Enter按下后才赋给speed
+ 361   2      
+ 362   2                LCD_PutChar(192, 38, 0x30+speed, Red,Blue);       //显示速度等级值
+ 363   2      
+ 364   2                while(Penirq==0);                                 //等待触摸释放
+ 365   2                Show_RGB(194,226,80,176,Magenta);                 //释放后恢复显示颜色
+C51 COMPILER V7.06   MAIN                                                                  09/25/2013 08:06:46 PAGE 7   
+
+ 366   2            LCD_PutString(206,120,"+",Black,Magenta);
+ 367   2      
+ 368   2              }
+ 369   1      
+ 370   1      
+ 371   1      
+ 372   1              if((lx>194)&&(lx<226)&&(ly>208)&&(ly<304))          //按下-
+ 373   1              {
+ 374   2                Show_RGB(194,226,208,304,Red);                     //按下部分变色突出显示    
+ 375   2            LCD_PutString(206,248,"-",Black,Red);
+ 376   2           
+ 377   2                if(speed>0)speed--;                               //速度等级赋给临时变量temp,直到Enter按下后才赋给speed
+ 378   2      
+ 379   2                LCD_PutChar(192, 38, 0x30+speed, Red,Blue);       //显示速度等级值
+ 380   2      
+ 381   2                while(Penirq==0);                                 //等待触摸释放
+ 382   2                Show_RGB(194,226,208,304,Magenta);                //释放后恢复显示颜色
+ 383   2            LCD_PutString(206,248,"-",Black,Magenta);
+ 384   2      
+ 385   2              }
+ 386   1      } 
+ 387          
+ 388          //================================================================================================
+ 389          //      函数名称：      主函数
+ 390          //      实现功能：      触摸控制直流电机调速
+ 391          //      参数：          无
+ 392          //      返回值：        无
+ 393          //================================================================================================
+ 394          main()
+ 395          {       
+ 396   1          Device_code=0x9320;
+ 397   1              speed=5;
+ 398   1      
+ 399   1              TFT_Initial();      //tft初始化
+ 400   1              start_7843();       //初始化触摸控制IC
+ 401   1              T0_init();              //定时器初始化
+ 402   1              init_interface();   //初始化人机控制界面
+ 403   1          
+ 404   1              while(1)
+ 405   1              {
+ 406   2              if(Getpix()==1)key_scan();    //扫描触摸按键实现电机调速
+ 407   2          }
+ 408   1      }
+ 409          
+ 410          
+ 411          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   3350    ----
+   CONSTANT SIZE    =     73    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      5    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

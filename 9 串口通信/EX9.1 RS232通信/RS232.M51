@@ -1,0 +1,140 @@
+BL51 BANKED LINKER/LOCATER V5.03                                                        10/08/2014  20:40:24  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V5.03, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE main.obj TO RS232 RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  main.obj (MAIN)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  RS232 (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0008H     UNIT         ?DT?MAIN
+            DATA    0010H     0002H     UNIT         _DATA_GROUP_
+                    0012H     000EH                  *** GAP ***
+            BIT     0020H.0   0000H.1   UNIT         ?BI?MAIN
+                    0020H.1   0000H.7                *** GAP ***
+            IDATA   0021H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0015H     UNIT         ?PR?INIT_COM?MAIN
+            CODE    0018H     000BH     UNIT         ?PR?SERIAL?MAIN
+            CODE    0023H     0003H     ABSOLUTE     
+            CODE    0026H     008CH     UNIT         ?C_C51STARTUP
+            CODE    00B2H     000FH     UNIT         ?PR?MAIN?MAIN
+            CODE    00C1H     000CH     UNIT         ?C_INITSEG
+            CODE    00CDH     0008H     UNIT         ?PR?_SEND_CHAR?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   RS232 (MAIN)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN                  0010H    0002H
+  +--> ?PR?INIT_COM?MAIN
+  +--> ?PR?_SEND_CHAR?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  RS232 (MAIN)
+
+BL51 BANKED LINKER/LOCATER V5.03                                                      10/08/2014  20:40:24  PAGE 2
+
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0018H         PUBLIC        serial
+  D:0008H         PUBLIC        table
+  C:00CDH         PUBLIC        _send_char
+  D:00A8H         PUBLIC        IE
+  B:0020H.0       PUBLIC        read_flag
+  B:0098H.0       PUBLIC        RI
+  B:0098H.1       PUBLIC        TI
+  C:00B2H         PUBLIC        main
+  D:0099H         PUBLIC        SBUF
+  D:0087H         PUBLIC        PCON
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:000FH         PUBLIC        ch
+  D:008DH         PUBLIC        TH1
+  D:008BH         PUBLIC        TL1
+  C:0003H         PUBLIC        init_com
+  B:0088H.6       PUBLIC        TR1
+  -------         PROC          INIT_COM
+  C:0003H         LINE#         20
+  C:0003H         LINE#         22
+  C:0003H         LINE#         23
+  C:0006H         LINE#         24
+  C:0009H         LINE#         25
+  C:000CH         LINE#         28
+  C:000FH         LINE#         29
+  C:0012H         LINE#         30
+  C:0015H         LINE#         31
+  C:0017H         LINE#         33
+  -------         ENDPROC       INIT_COM
+  -------         PROC          SERIAL
+  C:0018H         LINE#         37
+  C:0018H         LINE#         40
+  C:001BH         LINE#         42
+  C:001BH         LINE#         43
+  C:001DH         LINE#         44
+  C:0020H         LINE#         45
+  C:0022H         LINE#         46
+  C:0022H         LINE#         48
+  -------         ENDPROC       SERIAL
+  -------         PROC          _SEND_CHAR
+  D:0007H         SYMBOL        ch1
+  C:00CDH         LINE#         52
+  C:00CDH         LINE#         54
+  C:00CDH         LINE#         55
+  C:00CFH         LINE#         56
+  C:00D2H         LINE#         57
+  C:00D4H         LINE#         60
+  -------         ENDPROC       _SEND_CHAR
+  -------         PROC          MAIN
+  -------         DO            
+  D:0010H         SYMBOL        i
+  -------         ENDDO         
+BL51 BANKED LINKER/LOCATER V5.03                                                      10/08/2014  20:40:24  PAGE 3
+
+
+  C:00B2H         LINE#         64
+  C:00B2H         LINE#         65
+  C:00B2H         LINE#         66
+  C:00B5H         LINE#         68
+  C:00B5H         LINE#         69
+  C:00B5H         LINE#         84
+  C:00B8H         LINE#         86
+  C:00B8H         LINE#         87
+  C:00BAH         LINE#         90
+  C:00BFH         LINE#         93
+  C:00BFH         LINE#         95
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+Program Size: data=19.1 xdata=0 code=213
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

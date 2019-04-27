@@ -1,0 +1,117 @@
+BL51 BANKED LINKER/LOCATER V5.03                                                        07/28/2012  15:55:44  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V5.03, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE main.obj TO bz_yd RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  main.obj (MAIN)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  bz_yd (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0059H     UNIT         ?PR?PLAY_YD?MAIN
+            CODE    005CH     0020H     UNIT         ?PR?_DELAY?MAIN
+            CODE    007CH     000EH     UNIT         ?PR?MAIN?MAIN
+            CODE    008AH     000EH     UNIT         ?CO?MAIN
+            CODE    0098H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   bz_yd (MAIN)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN
+  +--> ?PR?PLAY_YD?MAIN
+  +--> ?PR?_DELAY?MAIN
+
+?PR?PLAY_YD?MAIN
+  +--> ?CO?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  bz_yd (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  15:55:44  PAGE 2
+
+
+  B:0080H.0       PUBLIC        BZ
+  C:007CH         PUBLIC        main
+  C:008AH         PUBLIC        SOUNDTONE
+  C:0003H         PUBLIC        Play_yd
+  C:005CH         PUBLIC        _delay
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        time
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:005CH         LINE#         19
+  C:005CH         LINE#         20
+  C:005CH         LINE#         22
+  C:0066H         LINE#         23
+  C:007BH         LINE#         24
+  -------         ENDPROC       _DELAY
+  -------         PROC          PLAY_YD
+  -------         DO            
+  D:0006H         SYMBOL        Tone
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  D:0082H         SYMBOL        k
+  -------         ENDDO         
+  C:0003H         LINE#         28
+  C:0003H         LINE#         29
+  C:0003H         LINE#         32
+  C:0006H         LINE#         33
+  C:0006H         LINE#         34
+  C:001EH         LINE#         35
+  C:0021H         LINE#         36
+  C:0021H         LINE#         37
+  C:0023H         LINE#         38
+  C:0032H         LINE#         39
+  C:0034H         LINE#         40
+  C:0045H         LINE#         41
+  C:0050H         LINE#         42
+  C:005BH         LINE#         43
+  -------         ENDPROC       PLAY_YD
+  -------         PROC          MAIN
+  C:007CH         LINE#         47
+  C:007CH         LINE#         48
+  C:007CH         LINE#         49
+  C:007CH         LINE#         50
+  C:007CH         LINE#         51
+  C:007FH         LINE#         52
+  C:0081H         LINE#         53
+  C:0088H         LINE#         54
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+Program Size: data=9.0 xdata=0 code=164
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

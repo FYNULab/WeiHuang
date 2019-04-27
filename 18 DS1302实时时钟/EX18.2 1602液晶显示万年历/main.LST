@@ -1,0 +1,49 @@
+C51 COMPILER V9.01   MAIN                                                                  12/10/2015 11:44:53 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: d:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /***************************************************************************************************    
+   2          工程名称：      DS1302_1602
+   3          功能描述：      读取DS1302中的万年历数据，通过1602液晶显示。
+   4          硬件连接：  用3位杜邦线分别将J8_0与J7_CLK、J8_1与J7_I/O、J8_2与J7_RST连接,插上1602液晶
+   5          维护记录：  2011-8-22
+   6          ***************************************************************************************************/
+   7          //声明外部函数
+   8          extern InitLCD();  
+   9          extern xian1();
+  10          extern xian2();
+  11          extern InitDS1302();
+  12          extern GetDS1302();
+  13          //************************************************************************************
+  14          //功能：主程序
+  15          //************************************************************************************
+  16          main()
+  17          {
+  18   1         InitLCD();      //初始化1602
+  19   1         InitDS1302();   //测试断开电源时，电池供电功能     
+  20   1         while(1)            //进入死循环，防止看门狗复位
+  21   1         {   
+  22   2          GetDS1302();   //提取时间参数 
+  23   2          xian1();       //显示第一行 
+  24   2          xian2();       //显示第二行     
+  25   2         }
+  26   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     17    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

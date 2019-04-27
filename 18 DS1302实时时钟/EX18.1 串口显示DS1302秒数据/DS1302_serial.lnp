@@ -1,0 +1,5 @@
+"main.obj",
+"ds1302.obj",
+"serial.obj" 
+TO "DS1302_serial" 
+RAMSIZE(256) 

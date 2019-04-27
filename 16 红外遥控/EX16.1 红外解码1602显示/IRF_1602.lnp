@@ -1,0 +1,4 @@
+"1602.obj",
+"main.obj" 
+TO "IRF_1602" 
+RAMSIZE(256) 

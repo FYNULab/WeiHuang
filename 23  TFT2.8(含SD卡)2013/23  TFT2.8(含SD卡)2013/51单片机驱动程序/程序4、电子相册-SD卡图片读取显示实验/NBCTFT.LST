@@ -1,0 +1,532 @@
+C51 COMPILER V7.06   NBCTFT                                                                09/25/2013 08:07:19 PAGE 1   
+
+
+C51 COMPILER V7.06, COMPILATION OF MODULE NBCTFT
+OBJECT MODULE PLACED IN NBCTFT.OBJ
+COMPILER INVOKED BY: D:\Program Files (x86)\C51\BIN\C51.EXE NBCTFT.C BROWSE DEBUG OBJECTEXTEND
+
+stmt level    source
+
+   1          //公司：合肥炜煌电子有限公司
+   2          //网址：www.hfwhdz.com
+   3          /*===================================================================================================  
+   4          文件功能描述：320x240TFT驱动程序，控制TFT实现汉字,字符显示,画点功能。
+   5          硬件连接：  请仔细按照下面接口连线，并仔细核对。
+   6               ----------------------------------------
+   7                1、   ----2.6寸TFT接线----------
+   8                      D0~D7   接IOA8~IOA15
+   9                                  EP      接IOB6
+  10                          RWP     接IOB5
+  11                                  A0      接IOB4
+  12                                  /CS1    接IOB
+  13               ----------------------------------------
+  14                2、   ----2.8寸TFT接线----------
+  15                      D0~D7   接IOA8~IOA15
+  16                                  EP      接IOB6
+  17                          RWP     接IOB5
+  18                                  A0      接IOB4
+  19                                  /CS1    接IOB
+  20                   ----------------------------------------
+  21          维护记录：  2012-3-14
+  22          ====================================================================================================*/
+  23          //******************包含头文件***************************
+  24          #include"NBCTFT.h"
+  25          #include"reg52.h"
+  26          
+  27          //**************控制端口定义********************
+  28          #define DataPort P0     //数据口使用DataPort
+  29          
+  30          sbit RS    =P2^5;               //数据/命令选择
+  31          sbit RW    =P2^4;       //写数据/命令
+  32          sbit nRD   =P2^3;       //读控制
+  33          sbit CS    =P2^2;               //片选
+  34          sbit RES   =P2^1;               //复位
+  35          
+  36          sbit LE    =P2^0;       //74HC573锁存控制
+  37          
+  38          //**************声明外部函数和变量**************
+  39          
+  40          extern unsigned int Device_code;
+  41          
+  42          
+  43          //================================================================================================
+  44          //      实现功能：      延时
+  45          //      输入参数：      count 设置延时时间
+  46          //================================================================================================
+  47          void delayms(unsigned int count)
+  48          {
+  49   1          int i,j;                                                                                
+  50   1          for(i=0;i<count;i++)                                                                    
+  51   1             {
+  52   2                   for(j=0;j<255;j++);
+  53   2             }                                                                                     
+  54   1      }
+  55          
+C51 COMPILER V7.06   NBCTFT                                                                09/25/2013 08:07:19 PAGE 2   
+
+  56          //================================================================================================
+  57          //      实现功能：      写命令
+  58          //      输入参数：  DH 需要输入16bits命令的高8位
+  59          //              DL 需要输入16bits命令的低8位
+  60          //================================================================================================
+  61          void Write_Cmd(unsigned char DH,unsigned char DL)
+  62          {
+  63   1              CS=0;
+  64   1              RS=0;
+  65   1          nRD=1;
+  66   1          RW=0;
+  67   1      
+  68   1          DataPort=DH;            //送高8位命令给573待锁存
+  69   1          LE=1;                   //锁存位
+  70   1          LE=0;                   //断开锁存,位选573的Q7~Q0仍保持 
+  71   1      
+  72   1              DataPort=DL;            //送低8位命令给TFT
+  73   1              
+  74   1              RW=1;
+  75   1              CS=1;
+  76   1      }
+  77          
+  78          
+  79          //================================================================================================
+  80          //      实现功能：      写数据(2*8bits)
+  81          //      输入参数：  DH 需要输入16bits数据的高8位
+  82          //              DL 需要输入16bits数据的低8位
+  83          //================================================================================================
+  84          void Write_Data(unsigned char DH,unsigned char DL)
+  85          {
+  86   1              
+  87   1              CS=0;
+  88   1              RS=1;
+  89   1              
+  90   1              DataPort=DH;            //送高8位数据给573待锁存
+  91   1          LE=1;                   //锁存位
+  92   1          LE=0;                   //断开锁存,位选573的Q7~Q0仍保持 
+  93   1      
+  94   1              DataPort=DL;            //送低8位数据给TFT
+  95   1              
+  96   1              RW=0;
+  97   1              RW=1;
+  98   1              CS=1;
+  99   1      }
+ 100          //================================================================================================
+ 101          //      实现功能：      写数据(16位)
+ 102          //      输入参数：  y 需要输入16bits数据
+ 103          //================================================================================================
+ 104          void  Write_Data_U16(unsigned int y)
+ 105          {
+ 106   1              unsigned char m,n;
+ 107   1              m=y>>8;
+ 108   1              n=y;
+ 109   1              Write_Data(m,n);
+ 110   1      
+ 111   1      }
+ 112          
+ 113          //================================================================================================
+ 114          //      实现功能：      向x寄存器写入y数据
+ 115          //      输入参数：  x 需要输入的命令 16位
+ 116          //              y 需要输入的数据 16位
+ 117          //================================================================================================
+C51 COMPILER V7.06   NBCTFT                                                                09/25/2013 08:07:19 PAGE 3   
+
+ 118          void  Write_Cmd_Data (unsigned char x,unsigned int y)
+ 119          {
+ 120   1              unsigned char m,n;
+ 121   1              m=y>>8;
+ 122   1              n=y;
+ 123   1              Write_Cmd(0x00,x);
+ 124   1              Write_Data(m,n);
+ 125   1      }
+ 126          
+ 127          //================================================================================================
+ 128          //      实现功能：      TFT清屏
+ 129          //      输入参数：      bColor 清屏所使用的背景色
+ 130          //================================================================================================
+ 131          void CLR_Screen(unsigned int bColor)
+ 132          {
+ 133   1       unsigned int i,j;
+ 134   1       LCD_SetPos(0,240,0,320);//320x240
+ 135   1       for (i=0;i<320;i++)
+ 136   1              {
+ 137   2                 for (j=0;j<240;j++)
+ 138   2                     Write_Data_U16(bColor);
+ 139   2              }
+ 140   1      }
+ 141          /*
+ 142          //================================================================================================
+ 143          //      实现功能：      显示Ascii字符
+ 144          //  输入参数：  x 横坐标
+ 145          //              y 纵坐标
+ 146          //                      c 需要显示的字符
+ 147          //                      fColor 字符颜色
+ 148          //                      bColor 字符背景颜色
+ 149          //================================================================================================
+ 150          #include "Ascii_8x16.h"
+ 151          void LCD_PutChar(unsigned short x, unsigned short y, char c, unsigned int fColor, unsigned int bColor)
+ 152          {
+ 153           unsigned int i,j;
+ 154           LCD_SetPos(x,x+8-1,y,y+16-1);                    //设置字符显示位置
+ 155           for(i=0; i<16;i++) {                             //循环写入16字节，一个字符为16字节
+ 156                          unsigned char m=Font8x16[(c-0x20)*16+i];  //提取c字符的第i个字节以,c减去0x20是由于Ascii码库中的0~1f被去?
+             -?
+ 157                          for(j=0;j<8;j++) {                        //循环写入8位，一个字节为8位
+ 158                                  if((m&0x80)==0x80) {                  //判断最高位是否为1
+ 159                                          Write_Data_U16(fColor);           //最高位为1，写入字符颜色
+ 160                                          }
+ 161                                  else {
+ 162                                          Write_Data_U16(bColor);           //最高位为0，写入背景颜色
+ 163                                          }
+ 164                                  m<<=1;                                //左移1位，准备写下一位
+ 165                                  }
+ 166                          }
+ 167          }
+ 168          
+ 169          //================================================================================================
+ 170          //      实现功能：      显示16x16汉字
+ 171          //  输入参数：  x 横坐标
+ 172          //              y 纵坐标
+ 173          //                      g 需要显示的字符编码
+ 174          //                      fColor 字符颜色
+ 175          //                      bColor 字符背景颜色
+ 176          //================================================================================================
+ 177          #include "chinese.h"    //包含16*16汉字字模
+ 178          
+C51 COMPILER V7.06   NBCTFT                                                                09/25/2013 08:07:19 PAGE 4   
+
+ 179          void Put16x16(unsigned short x, unsigned short  y, unsigned char g[2], unsigned int fColor,unsigned int bC
+             -olor)
+ 180          {
+ 181                  unsigned int i,j,k;
+ 182          
+ 183                  LCD_SetPos(x,  x+16-1,y, y+16-1);                       //设置汉字显示位置
+ 184          
+ 185                  for (k=0;k<64;k++)                                      //循环64次，查询汉字字模位置
+ 186                  { 
+ 187                    if ((ch16[k].GBK[0]==g[0])&&(ch16[k].GBK[1]==g[1]))   //判断第k个汉字的编码是否与输入汉字g[2]相等
+ 188                    { 
+ 189                  for(i=0;i<32;i++)                                   //如果相等，既已找到待显示字模位置，循环写入32字?
+             -?
+ 190                          {
+ 191                            unsigned short m=ch16[k].hz16[i];                 //读取32字节中的第i字节
+ 192                            for(j=0;j<8;j++)                                  //循环写入8位数据
+ 193                             {                                                
+ 194                                   if((m&0x80)==0x80) Write_Data_U16(fColor);     //判断最高位是否为1,最高位为1，写入字符颜色
+ 195                                   else              Write_Data_U16(bColor);      //最高位为0，写入背景颜色
+ 196                               m<<=1;                                         //左移1位，准备写下一位
+ 197                         } 
+ 198                          }
+ 199                    }  
+ 200              }   
+ 201          }
+ 202          
+ 203          //================================================================================================
+ 204          //      实现功能：      显示中英文字符串
+ 205          //  输入参数：  x 横坐标
+ 206          //              y 纵坐标
+ 207          //                      *s 待显示的字符串,例如LCD_PutString(24,16,"123蓝芯",White,Blue);即把"123蓝芯"的第一个字符地址?
+             -掣刚氡淞縮.
+ 208          //                      bColor 字符背景颜色
+ 209          //================================================================================================
+ 210          void LCD_PutString(unsigned short x, unsigned short y, unsigned char *s, unsigned int fColor, unsigned int
+             - bColor) 
+ 211          {
+ 212                   unsigned char l=0;                            //显示屏位置增量
+ 213               while(*s) 
+ 214                   {
+ 215                          if( *s < 0x80)                             //判断s指向的字符串中的某字符的编码值是否小于128,如果小于,即?
+             -狝SCII字符
+ 216                              {
+ 217                                   LCD_PutChar(x+l*8,y,*s,fColor,bColor);//显示该字符
+ 218                               s++;l++;                              //指针加1,位置加1
+ 219                                  }
+ 220                          else
+ 221                              {
+ 222                                   Put16x16(x+l*8,y,(unsigned char*)s,fColor,bColor);//显示该汉字
+ 223                               s+=2;l+=2;                                        //因为汉字为编码为2字节，指针加2,显示16x16所以位?
+             -眉?
+ 224                                  }
+ 225                   }
+ 226          }
+ 227          */
+ 228          
+ 229          //================================================================================================
+ 230          //      实现功能：      TFT初始化
+ 231          //================================================================================================
+ 232          void TFT_Initial(void)
+ 233          {  
+ 234   1      
+C51 COMPILER V7.06   NBCTFT                                                                09/25/2013 08:07:19 PAGE 5   
+
+ 235   1          RES = 1;    
+ 236   1              delayms(1);                    // Delay 1ms 
+ 237   1              RES = 0;  
+ 238   1              delayms(10);                   // Delay 10ms            
+ 239   1              RES = 1;  
+ 240   1              delayms(50);                   // Delay 50 ms  
+ 241   1      
+ 242   1              if(Device_code==0x9320)
+ 243   1           {
+ 244   2      
+ 245   2          //************* Start Initial Sequence **********//
+ 246   2              Write_Cmd_Data(0x00,0x0001);   //Set the OSC bit as ‘1’ to start the internal oscillator
+ 247   2          Write_Cmd_Data(0x01,0x0100);   // set SS and SM bit
+ 248   2              Write_Cmd_Data(0x02,0x0700);   // set 1 line inversion
+ 249   2              Write_Cmd_Data(0x03,0x1030);   //set GRAM write direction and BGR=1
+ 250   2          Write_Cmd_Data(0x04,0x0000);   // Resize register
+ 251   2              Write_Cmd_Data(0x08,0x0202);   // set the back porch and front porch
+ 252   2          Write_Cmd_Data(0x09,0x0000);   // set non-display area refresh cycle ISC[3:0]
+ 253   2          Write_Cmd_Data(0x0A,0x0000);   // FMARK function
+ 254   2          Write_Cmd_Data(0x0C,0x0000);   // RGB interface setting
+ 255   2              Write_Cmd_Data(0x0D,0x0000);   // Frame marker Position
+ 256   2          Write_Cmd_Data(0x0F,0x0000);   // RGB interface polarity
+ 257   2          delayms(30);
+ 258   2              //*************Power On sequence ****************//
+ 259   2              Write_Cmd_Data(0x10, 0x16b0);   // SAP, BT[3:0], AP, DSTB, SLP, STB
+ 260   2              delayms(30);
+ 261   2              Write_Cmd_Data(0x11, 0x0007);   //Write final user’s setting values to VC bit
+ 262   2              Write_Cmd_Data(0x12, 0x013a);   // set Internal reference voltage
+ 263   2              Write_Cmd_Data(0x13, 0x1a00);   // VDV[4:0] for VCOM amplitude
+ 264   2          delayms(30);
+ 265   2          Write_Cmd_Data(0x29, 0x000c);   // Set VCM[5:0] for VCOMH
+ 266   2              delayms(30); // Delay 50ms
+ 267   2      
+ 268   2              // ----------- Adjust the Gamma Curve ----------//
+ 269   2              Write_Cmd_Data(0x0030, 0x0000);
+ 270   2              Write_Cmd_Data(0x0031, 0x0505);
+ 271   2              Write_Cmd_Data(0x0032, 0x0304);
+ 272   2              Write_Cmd_Data(0x0035, 0x0006);
+ 273   2              Write_Cmd_Data(0x0036, 0x0707);
+ 274   2              Write_Cmd_Data(0x0037, 0x0105);
+ 275   2              Write_Cmd_Data(0x0038, 0x0002);
+ 276   2              Write_Cmd_Data(0x0039, 0x0707);
+ 277   2              Write_Cmd_Data(0x003C, 0x0704);
+ 278   2              Write_Cmd_Data(0x003D, 0x0807);
+ 279   2      
+ 280   2              //------------------ Set GRAM area ---------------//
+ 281   2              Write_Cmd_Data(0x0050, 0x0000); // Horizontal GRAM Start Address
+ 282   2              Write_Cmd_Data(0x0051, 0x00EF); // Horizontal GRAM End Address
+ 283   2              Write_Cmd_Data(0x0052, 0x0000); // Vertical GRAM Start Address
+ 284   2              Write_Cmd_Data(0x0053, 0x013F); // Vertical GRAM Start Address
+ 285   2              Write_Cmd_Data(0x0060, 0x2700); // Gate Scan Line
+ 286   2              Write_Cmd_Data(0x0061, 0x0001); // NDL,VLE, REV
+ 287   2              Write_Cmd_Data(0x006A, 0x0000); // set scrolling line
+ 288   2          Write_Cmd_Data(0x20, 0x0000);   // GRAM horizontal Address
+ 289   2              Write_Cmd_Data(0x21, 0x0000);   // GRAM Vertical Address
+ 290   2      
+ 291   2              //-------------- Partial Display Control ---------//
+ 292   2              Write_Cmd_Data(0x0080, 0x0000);
+ 293   2              Write_Cmd_Data(0x0081, 0x0000);
+ 294   2              Write_Cmd_Data(0x0082, 0x0000);
+ 295   2              Write_Cmd_Data(0x0083, 0x0000);
+ 296   2              Write_Cmd_Data(0x0084, 0x0000);
+C51 COMPILER V7.06   NBCTFT                                                                09/25/2013 08:07:19 PAGE 6   
+
+ 297   2              Write_Cmd_Data(0x0085, 0x0000);
+ 298   2      
+ 299   2              //-------------- Panel Control ---------//
+ 300   2          Write_Cmd_Data(0x90,0x0010);   //Frame Cycle Contral
+ 301   2              Write_Cmd_Data(0x92,0x0000);   //Panel Interface Contral
+ 302   2              Write_Cmd_Data(0x93,0x0003);   //Panel Interface Contral 3. 
+ 303   2              Write_Cmd_Data(0x95,0x0110);   //Frame Cycle Contral
+ 304   2              Write_Cmd_Data(0x97,0x0000);   // 
+ 305   2              Write_Cmd_Data(0x98,0x0000);   //Frame Cycle Contral.     
+ 306   2      
+ 307   2              //-------------- Display on ---------//
+ 308   2          Write_Cmd_Data(0x07,0x0173); 
+ 309   2      
+ 310   2              }
+ 311   1      
+ 312   1              else if(Device_code==0x1505 )
+ 313   1           {
+ 314   2      
+ 315   2          //************* Start Initial Sequence **********//
+ 316   2              Write_Cmd_Data(0x00,0x0001);   //Set the OSC bit as ‘1’ to start the internal oscillator
+ 317   2          Write_Cmd_Data(0x01,0x0100);   // set SS and SM bit
+ 318   2              Write_Cmd_Data(0x02,0x0700);   // set 1 line inversion
+ 319   2              Write_Cmd_Data(0x03,0x1030);   //set GRAM write direction and BGR=1
+ 320   2          Write_Cmd_Data(0x04,0x0000);   // Resize register
+ 321   2              Write_Cmd_Data(0x08,0x0202);   // set the back porch and front porch
+ 322   2          Write_Cmd_Data(0x09,0x0000);   // set non-display area refresh cycle ISC[3:0]
+ 323   2          Write_Cmd_Data(0x0A,0x0000);   // FMARK function
+ 324   2          Write_Cmd_Data(0x0C,0x0000);   // RGB interface setting
+ 325   2              Write_Cmd_Data(0x0D,0x0000);   // Frame marker Position
+ 326   2          Write_Cmd_Data(0x0F,0x0000);   // RGB interface polarity
+ 327   2          delayms(30);
+ 328   2              //*************Power On sequence ****************//
+ 329   2              Write_Cmd_Data(0x10, 0x16b0);   // SAP, BT[3:0], AP, DSTB, SLP, STB
+ 330   2              delayms(30);
+ 331   2              Write_Cmd_Data(0x11, 0x0007);   //Write final user’s setting values to VC bit
+ 332   2              Write_Cmd_Data(0x12, 0x013a);   // set Internal reference voltage
+ 333   2              Write_Cmd_Data(0x13, 0x1a00);   // VDV[4:0] for VCOM amplitude
+ 334   2          delayms(30);
+ 335   2          Write_Cmd_Data(0x29, 0x000c);   // Set VCM[5:0] for VCOMH
+ 336   2              delayms(30); // Delay 50ms
+ 337   2      
+ 338   2              // ----------- Adjust the Gamma Curve ----------//
+ 339   2              Write_Cmd_Data(0x0030, 0x0000);
+ 340   2              Write_Cmd_Data(0x0031, 0x0505);
+ 341   2              Write_Cmd_Data(0x0032, 0x0304);
+ 342   2              Write_Cmd_Data(0x0035, 0x0006);
+ 343   2              Write_Cmd_Data(0x0036, 0x0707);
+ 344   2              Write_Cmd_Data(0x0037, 0x0105);
+ 345   2              Write_Cmd_Data(0x0038, 0x0002);
+ 346   2              Write_Cmd_Data(0x0039, 0x0707);
+ 347   2              Write_Cmd_Data(0x003C, 0x0704);
+ 348   2              Write_Cmd_Data(0x003D, 0x0807);
+ 349   2      
+ 350   2              //------------------ Set GRAM area ---------------//
+ 351   2              Write_Cmd_Data(0x0050, 0x0000); // Horizontal GRAM Start Address
+ 352   2              Write_Cmd_Data(0x0051, 0x00EF); // Horizontal GRAM End Address
+ 353   2              Write_Cmd_Data(0x0052, 0x0000); // Vertical GRAM Start Address
+ 354   2              Write_Cmd_Data(0x0053, 0x013F); // Vertical GRAM Start Address
+ 355   2              Write_Cmd_Data(0x0060, 0x2700); // Gate Scan Line
+ 356   2              Write_Cmd_Data(0x0061, 0x0001); // NDL,VLE, REV
+ 357   2              Write_Cmd_Data(0x006A, 0x2700); // set scrolling line
+ 358   2          Write_Cmd_Data(0x20, 0x0000);   // GRAM horizontal Address
+C51 COMPILER V7.06   NBCTFT                                                                09/25/2013 08:07:19 PAGE 7   
+
+ 359   2              Write_Cmd_Data(0x21, 0x0000);   // GRAM Vertical Address
+ 360   2      
+ 361   2              //-------------- Partial Display Control ---------//
+ 362   2              Write_Cmd_Data(0x0080, 0x0000);
+ 363   2              Write_Cmd_Data(0x0081, 0x0000);
+ 364   2              Write_Cmd_Data(0x0082, 0x0000);
+ 365   2              Write_Cmd_Data(0x0083, 0x0000);
+ 366   2              Write_Cmd_Data(0x0084, 0x0000);
+ 367   2              Write_Cmd_Data(0x0085, 0x0000);
+ 368   2      
+ 369   2              //-------------- Panel Control ---------//
+ 370   2          Write_Cmd_Data(0x90,0x0010);   //Frame Cycle Contral
+ 371   2              Write_Cmd_Data(0x92,0x0000);   //Panel Interface Contral
+ 372   2              Write_Cmd_Data(0x93,0x0003);   //Panel Interface Contral 3. 
+ 373   2              Write_Cmd_Data(0x95,0x0110);   //Frame Cycle Contral
+ 374   2              Write_Cmd_Data(0x97,0x0000);   // 
+ 375   2              Write_Cmd_Data(0x98,0x0000);   //Frame Cycle Contral.     
+ 376   2      
+ 377   2              //-------------- Display on ---------//
+ 378   2          Write_Cmd_Data(0x07,0x0173); 
+ 379   2      
+ 380   2              }
+ 381   1      
+ 382   1          else if(Device_code==0x9328)
+ 383   1           {
+ 384   2      
+ 385   2          //************* Start Initial Sequence **********//
+ 386   2               Write_Cmd_Data(0x0001,0x0100);   //set SS and SM bit //设置扫描方向
+ 387   2          Write_Cmd_Data(0x0002,0x0700);   //EOR=1 and B/C=1 to set the line inversion  //设置行反转
+ 388   2          Write_Cmd_Data(0x0003,0x1030);   //set Entry Mode  //设置进入模式   
+ 389   2          Write_Cmd_Data(0x0004,0x0000);   //
+ 390   2          Write_Cmd_Data(0x00A4,0x0001);
+ 391   2          Write_Cmd_Data(0x0008,0x0202); // set the back porch and front porch
+ 392   2          Write_Cmd_Data(0x0009,0x0000); // set non-display area refresh cycle ISC[3:0]
+ 393   2          Write_Cmd_Data(0x000A,0x0000); // FMARK function
+ 394   2          Write_Cmd_Data(0x000C,0x0000); // RGB interface setting
+ 395   2          Write_Cmd_Data(0x000D, 0x0000); // Frame marker Position
+ 396   2          Write_Cmd_Data(0x000F, 0x0000); // RGB interface polarity
+ 397   2      
+ 398   2      
+ 399   2      
+ 400   2      //*************Power On sequence ****************//
+ 401   2          Write_Cmd_Data(0x0010, 0x0000); // SAP, BT[3:0], AP, DSTB, SLP, STB 
+ 402   2          Write_Cmd_Data(0x0011, 0x0007); // DC1[2:0], DC0[2:0], VC[2:0]
+ 403   2          Write_Cmd_Data(0x0012, 0x0000); // VREG1OUT voltage
+ 404   2          Write_Cmd_Data(0x0013, 0x0000); // VDV[4:0] for VCOM amplitude 
+ 405   2          delayms(30);
+ 406   2          Write_Cmd_Data(0x0010, 0x1690); // SAP, BT[3:0], AP, DSTB, SLP, STB 
+ 407   2          Write_Cmd_Data(0x0011, 0x0227); // R11h=0x0221 at VCI=3.3V, DC1[2:0], DC0[2:0], VC[2:0]
+ 408   2          delayms(30);
+ 409   2          Write_Cmd_Data(0x0012, 0x001C); // External reference voltage= Vci;
+ 410   2          delayms(30); 
+ 411   2          Write_Cmd_Data(0x0013, 0x1800); // R13=1200 when R12=009D;VDV[4:0] for VCOM amplitude
+ 412   2          Write_Cmd_Data(0x0029, 0x001C); // R29=000C when R12=009D;VCM[5:0] for VCOMH
+ 413   2          Write_Cmd_Data(0x002B, 0x000D); // Frame Rate = 91Hz
+ 414   2          delayms(30);    
+ 415   2          Write_Cmd_Data(0x0020, 0x0000); // GRAM horizontal Address
+ 416   2          Write_Cmd_Data(0x0021, 0x0000); // GRAM Vertical Address
+ 417   2      // ----------- Adjust the Gamma Curve ----------//               
+ 418   2              Write_Cmd_Data(0x0030, 0x0007);
+ 419   2              Write_Cmd_Data(0x0031, 0x0302);
+ 420   2          Write_Cmd_Data(0x0032, 0x0105);
+C51 COMPILER V7.06   NBCTFT                                                                09/25/2013 08:07:19 PAGE 8   
+
+ 421   2              Write_Cmd_Data(0x0035, 0x0206);
+ 422   2          Write_Cmd_Data(0x0036, 0x0808);               
+ 423   2          Write_Cmd_Data(0x0037, 0x0206);
+ 424   2          Write_Cmd_Data(0x0038, 0x0504);
+ 425   2          Write_Cmd_Data(0x0039, 0x0007);
+ 426   2          Write_Cmd_Data(0x003C, 0x0105);
+ 427   2          Write_Cmd_Data(0x003D, 0x0808);
+ 428   2      //------------------ Set GRAM area ---------------//
+ 429   2          Write_Cmd_Data(0x0050, 0x0000); // Horizontal GRAM Start Address
+ 430   2          Write_Cmd_Data(0x0051, 0x00EF); // Horizontal GRAM End Address
+ 431   2          Write_Cmd_Data(0x0052, 0x0000); // Vertical GRAM Start Address
+ 432   2              delayms(30);
+ 433   2          Write_Cmd_Data(0x0053, 0x013F); // Vertical GRAM Start Address
+ 434   2              delayms(30);
+ 435   2          Write_Cmd_Data(0x0060, 0xA700); // Gate Scan Line
+ 436   2          Write_Cmd_Data(0x0061, 0x0001); // NDL,VLE, REV  
+ 437   2          Write_Cmd_Data(0x006A, 0x0000); // set scrolling line
+ 438   2      //-------------- Partial Display Control ---------//
+ 439   2          Write_Cmd_Data(0x0080, 0x0000);
+ 440   2          Write_Cmd_Data(0x0081, 0x0000);
+ 441   2          Write_Cmd_Data(0x0082,0x0000); 
+ 442   2          Write_Cmd_Data(0x0083,0x0000); 
+ 443   2          Write_Cmd_Data(0x0084,0x0000); 
+ 444   2          Write_Cmd_Data(0x0085,0x0000); 
+ 445   2      //-------------- Panel Control -------------------//        
+ 446   2          Write_Cmd_Data(0x0090, 0x0010);
+ 447   2          Write_Cmd_Data(0x0092, 0x0000);
+ 448   2          Write_Cmd_Data(0x0093, 0x0003);
+ 449   2          Write_Cmd_Data(0x0095, 0x0110);
+ 450   2          Write_Cmd_Data(0x0097, 0x0000);
+ 451   2          Write_Cmd_Data(0x0098, 0x0000);
+ 452   2          Write_Cmd_Data(0x0007, 0x0133); // 262K color and display ON
+ 453   2      
+ 454   2              }
+ 455   1      }
+ 456          
+ 457          //================================================================================================
+ 458          //      实现功能：      设置坐标
+ 459          //  输入参数：  x0，y0 起始坐标
+ 460          //              x1，y1 结束坐标
+ 461          //================================================================================================
+ 462          void LCD_SetPos(unsigned int x0,unsigned int x1,unsigned int y0,unsigned int y1)
+ 463          {
+ 464   1      
+ 465   1        Write_Cmd_Data(0x50,x0);  // Horizontal GRAM Start Address
+ 466   1        Write_Cmd_Data(0x51,x1);  // Horizontal GRAM End Address
+ 467   1        Write_Cmd_Data(0x52,y0);  // Vertical GRAM Start Address
+ 468   1        Write_Cmd_Data(0x53,y1);  // Vertical GRAM Start Address
+ 469   1        Write_Cmd_Data(0x20,x0);  // GRAM horizontal Address
+ 470   1        Write_Cmd_Data(0x21,y0);  // GRAM Vertical Address
+ 471   1        Write_Cmd (0x00,0x22);    // 0x0022,Start to Write Data to GRAM 
+ 472   1      }
+ 473          /*
+ 474          //================================================================================================
+ 475          //      实现功能：      画点
+ 476          //  输入参数：  x，y 需要画点坐标
+ 477          //              color 点的颜色
+ 478          //================================================================================================
+ 479          void Put_pixel(unsigned int x,unsigned int y,unsigned int color)
+ 480          {
+ 481                  LCD_SetPos(x,x,y,y);
+ 482                  Write_Data_U16(color);
+C51 COMPILER V7.06   NBCTFT                                                                09/25/2013 08:07:19 PAGE 9   
+
+ 483          }
+ 484          
+ 485          */
+ 486          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1202    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      10
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

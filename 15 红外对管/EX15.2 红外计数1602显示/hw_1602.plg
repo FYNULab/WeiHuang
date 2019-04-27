@@ -1,0 +1,57 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+E:\炜煌电子51开发板光盘\炜煌电子51开发板光盘\3 实验教程及配套源码\15 红外对管\EX15.2 红外计数1602显示\hw_1602.uvproj
+Project File Date:  10/08/2014
+
+<h2>Output:</h2>
+Rebuild target 'Target 1'
+compiling main.c...
+linking...
+Program Size: data=50.0 xdata=0 code=437
+creating hex file from "hw_1602"...
+"hw_1602" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+compiling main.c...
+MAIN.C(33): error C202: 'speed': undefined identifier
+MAIN.C(33): error C202: 'Dcout': undefined identifier
+MAIN.C(38): error C202: 'Dcout': undefined identifier
+MAIN.C(150): error C202: 'speed': undefined identifier
+MAIN.C(153): error C202: 'S20': undefined identifier
+MAIN.C(156): error C202: 'S20': undefined identifier
+MAIN.C(157): error C202: 'speed': undefined identifier
+MAIN.C(157): error C202: 'speed': undefined identifier
+MAIN.C(157): error C202: 'speed': undefined identifier
+MAIN.C(160): error C202: 'S18': undefined identifier
+MAIN.C(163): error C202: 'S18': undefined identifier
+MAIN.C(164): error C202: 'speed': undefined identifier
+MAIN.C(164): error C202: 'speed': undefined identifier
+MAIN.C(164): error C202: 'speed': undefined identifier
+MAIN.C(167): error C141: syntax error near ''
+Target not created
+Rebuild target 'Target 1'
+compiling main.c...
+MAIN.C(33): error C202: 'Dcout': undefined identifier
+MAIN.C(38): error C202: 'Dcout': undefined identifier
+MAIN.C(153): error C202: 'S20': undefined identifier
+MAIN.C(156): error C202: 'S20': undefined identifier
+MAIN.C(160): error C202: 'S18': undefined identifier
+MAIN.C(163): error C202: 'S18': undefined identifier
+MAIN.C(167): error C141: syntax error near ''
+Target not created
+Rebuild target 'Target 1'
+compiling main.c...
+MAIN.C(170): error C141: syntax error near ''
+Target not created
+Rebuild target 'Target 1'
+compiling main.c...
+MAIN.C(170): error C141: syntax error near ''
+Target not created
+Rebuild target 'Target 1'
+compiling main.c...
+linking...
+Program Size: data=51.0 xdata=0 code=542
+creating hex file from "hw_1602"...
+"hw_1602" - 0 Error(s), 0 Warning(s).

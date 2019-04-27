@@ -1,0 +1,165 @@
+BL51 BANKED LINKER/LOCATER V5.03                                                        07/28/2012  15:55:17  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V5.03, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE main.obj TO smg_0.1~9.9 RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL WITH FLOATING POINT ARITHMETIC
+
+
+INPUT MODULES INCLUDED:
+  main.obj (MAIN)
+  C:\KEIL\C51\LIB\C51FPS.LIB (?C?FPADD)
+  C:\KEIL\C51\LIB\C51FPS.LIB (?C?FPMUL)
+  C:\KEIL\C51\LIB\C51FPS.LIB (?C?FPCMP)
+  C:\KEIL\C51\LIB\C51FPS.LIB (?C?CASTF)
+  C:\KEIL\C51\LIB\C51FPS.LIB (?C?FPGETOPN)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?LNEG)
+
+
+LINK MAP OF MODULE:  smg_0.1~9.9 (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0005H     UNIT         ?DT?MAIN
+            DATA    000DH     0001H     UNIT         _DATA_GROUP_
+            IDATA   000EH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     02FAH     UNIT         ?C?LIB_CODE
+            CODE    02FDH     00ABH     UNIT         ?PR?SCAN?MAIN
+            CODE    03A8H     002AH     UNIT         ?PR?_DELAY?MAIN
+            CODE    03D2H     0010H     UNIT         ?CO?MAIN
+            CODE    03E2H     000EH     UNIT         ?PR?MAIN?MAIN
+            CODE    03F0H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   smg_0.1~9.9 (MAIN)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN                  -----    -----
+  +--> ?PR?SCAN?MAIN
+
+?PR?SCAN?MAIN                  000DH    0001H
+  +--> ?CO?MAIN
+  +--> ?PR?_DELAY?MAIN
+
+
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  15:55:17  PAGE 2
+
+
+
+SYMBOL TABLE OF MODULE:  smg_0.1~9.9 (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  C:03E2H         PUBLIC        main
+  C:02FDH         PUBLIC        scan
+  C:03D2H         PUBLIC        dis
+  B:00A0H.0       PUBLIC        LE1
+  B:00A0H.1       PUBLIC        LE2
+  D:0008H         PUBLIC        wei
+  D:0009H         PUBLIC        num
+  C:03B2H         PUBLIC        _delay
+  -------         PROC          L?0018
+  -------         ENDPROC       L?0018
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        time
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:03B2H         LINE#         29
+  C:03B2H         LINE#         30
+  C:03B2H         LINE#         32
+  C:03BCH         LINE#         33
+  C:03D1H         LINE#         34
+  -------         ENDPROC       _DELAY
+  -------         PROC          SCAN
+  -------         DO            
+  D:000DH         SYMBOL        i
+  -------         ENDDO         
+  C:02FDH         LINE#         38
+  C:02FDH         LINE#         39
+  C:02FDH         LINE#         41
+  C:0300H         LINE#         42
+  C:0300H         LINE#         44
+  C:0303H         LINE#         45
+  C:0305H         LINE#         46
+  C:0307H         LINE#         47
+  C:031EH         LINE#         48
+  C:032AH         LINE#         49
+  C:032AH         LINE#         50
+  C:032AH         LINE#         51
+  C:032DH         LINE#         53
+  C:0334H         LINE#         55
+  C:0337H         LINE#         56
+  C:0339H         LINE#         57
+  C:033BH         LINE#         58
+  C:0350H         LINE#         59
+  C:035CH         LINE#         60
+  C:035CH         LINE#         61
+  C:035CH         LINE#         62
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  15:55:17  PAGE 3
+
+
+  C:035FH         LINE#         64
+  C:0366H         LINE#         65
+  C:036FH         LINE#         67
+  C:038CH         LINE#         68
+  C:03A7H         LINE#         69
+  -------         ENDPROC       SCAN
+  -------         PROC          MAIN
+  C:03E2H         LINE#         73
+  C:03E2H         LINE#         74
+  C:03E2H         LINE#         75
+  C:03EBH         LINE#         76
+  C:03EBH         LINE#         77
+  C:03EBH         LINE#         78
+  C:03EEH         LINE#         79
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        ?C?FPADD
+  C:000AH         PUBLIC        ?C?FPADD
+  C:0006H         PUBLIC        ?C?FPSUB
+  -------         ENDMOD        ?C?FPADD
+
+  -------         MODULE        ?C?FPMUL
+  C:00FBH         PUBLIC        ?C?FPMUL
+  -------         ENDMOD        ?C?FPMUL
+
+  -------         MODULE        ?C?FPCMP
+  C:0203H         PUBLIC        ?C?FPCMP
+  C:0201H         PUBLIC        ?C?FPCMP3
+  -------         ENDMOD        ?C?FPCMP
+
+  -------         MODULE        ?C?CASTF
+  C:026EH         PUBLIC        ?C?CASTF
+  -------         ENDMOD        ?C?CASTF
+
+  -------         MODULE        ?C?LNEG
+  C:02EFH         PUBLIC        ?C?LNEG
+  -------         ENDMOD        ?C?LNEG
+
+Program Size: data=15.0 xdata=0 code=1020
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

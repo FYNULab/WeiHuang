@@ -1,0 +1,17 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\Administrator\Desktop\3 实验教程及配套源码\2 数码管\EX2.5 8位动态扫描显示01234567\smg_scan.uvproj
+Project File Date:  10/22/2015
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(34): warning C290: missing return value
+MAIN.C(53): warning C290: missing return value
+linking...
+Program Size: data=11.0 xdata=0 code=122
+creating hex file from "smg_scan"...
+"smg_scan" - 0 Error(s), 2 Warning(s).

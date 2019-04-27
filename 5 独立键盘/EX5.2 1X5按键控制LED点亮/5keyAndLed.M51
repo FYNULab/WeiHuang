@@ -1,0 +1,179 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        03/22/2019  11:27:42  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE main.obj TO 5keyAndLed RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  main.obj (MAIN)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  5keyAndLed (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0002H     UNIT         _DATA_GROUP_
+            DATA    000AH     0001H     UNIT         ?DT?MAIN
+            IDATA   000BH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     006AH     UNIT         ?PR?KEYHANDLE?MAIN
+            CODE    086AH     0021H     UNIT         ?PR?KEYSCAN?MAIN
+            CODE    088BH     0020H     UNIT         ?PR?_DELAY?MAIN
+            CODE    08ABH     000CH     UNIT         ?C_C51STARTUP
+            CODE    08B7H     0008H     UNIT         ?PR?MAIN?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   5keyAndLed (MAIN)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN                  -----    -----
+  +--> ?PR?KEYSCAN?MAIN
+  +--> ?PR?KEYHANDLE?MAIN
+
+?PR?KEYSCAN?MAIN               -----    -----
+  +--> ?PR?_DELAY?MAIN
+
+?PR?KEYHANDLE?MAIN             0008H    0002H
+  +--> ?PR?_DELAY?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  5keyAndLed (MAIN)
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/22/2019  11:27:42  PAGE 2
+
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  C:088BH         PUBLIC        _delay
+  C:0800H         PUBLIC        keyHandle
+  C:08B7H         PUBLIC        main
+  D:000AH         PUBLIC        keyValue
+  C:086AH         PUBLIC        keyScan
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        time
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:088BH         LINE#         24
+  C:088BH         LINE#         25
+  C:088BH         LINE#         27
+  C:0895H         LINE#         28
+  C:08AAH         LINE#         29
+  -------         ENDPROC       _DELAY
+  -------         PROC          KEYSCAN
+  C:086AH         LINE#         33
+  C:086AH         LINE#         34
+  C:086AH         LINE#         35
+  C:086DH         LINE#         36
+  C:0875H         LINE#         37
+  C:0875H         LINE#         38
+  C:087CH         LINE#         39
+  C:0884H         LINE#         40
+  C:088AH         LINE#         41
+  C:088AH         LINE#         42
+  -------         ENDPROC       KEYSCAN
+  -------         PROC          KEYHANDLE
+  -------         DO            
+  D:0008H         SYMBOL        i
+  D:0009H         SYMBOL        j
+  D:0008H         SYMBOL        i
+  D:0009H         SYMBOL        j
+  -------         ENDDO         
+  -------         DO            
+  D:0008H         SYMBOL        i
+  D:0009H         SYMBOL        j
+  -------         ENDDO         
+  C:0800H         LINE#         46
+  C:0800H         LINE#         47
+  C:0800H         LINE#         48
+  C:0816H         LINE#         49
+  C:0816H         LINE#         50
+  C:0816H         LINE#         51
+  C:0816H         LINE#         55
+  C:0819H         LINE#         56
+  C:081CH         LINE#         57
+  C:081CH         LINE#         59
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/22/2019  11:27:42  PAGE 3
+
+
+  C:0821H         LINE#         60
+  C:0828H         LINE#         61
+  C:082EH         LINE#         63
+  C:0838H         LINE#         64
+  C:0838H         LINE#         66
+  C:0838H         LINE#         67
+  C:0838H         LINE#         68
+  C:0838H         LINE#         70
+  C:083BH         LINE#         71
+  C:083EH         LINE#         72
+  C:083EH         LINE#         73
+  C:0841H         LINE#         74
+  C:0848H         LINE#         75
+  C:084EH         LINE#         76
+  C:0851H         LINE#         77
+  C:085AH         LINE#         78
+  C:085DH         LINE#         79
+  C:085EH         LINE#         80
+  C:085EH         LINE#         81
+  C:085EH         LINE#         82
+  C:085EH         LINE#         83
+  C:0861H         LINE#         84
+  C:0862H         LINE#         85
+  C:0862H         LINE#         86
+  C:0862H         LINE#         87
+  C:0862H         LINE#         88
+  C:0865H         LINE#         89
+  C:0866H         LINE#         90
+  C:0866H         LINE#         91
+  C:0866H         LINE#         92
+  C:0866H         LINE#         93
+  C:0869H         LINE#         94
+  C:0869H         LINE#         95
+  C:0869H         LINE#         96
+  C:0869H         LINE#         97
+  C:0869H         LINE#         98
+  C:0869H         LINE#         99
+  -------         ENDPROC       KEYHANDLE
+  -------         PROC          MAIN
+  C:08B7H         LINE#         103
+  C:08B7H         LINE#         104
+  C:08B7H         LINE#         106
+  C:08B7H         LINE#         107
+  C:08B7H         LINE#         108
+  C:08BAH         LINE#         109
+  C:08BDH         LINE#         110
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 00B3H BYTE ( 8%) *
+******************************************************************************
+
+Program Size: data=12.0 xdata=0 code=194
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

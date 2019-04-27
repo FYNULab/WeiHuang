@@ -1,0 +1,55 @@
+C51 COMPILER V7.06   MAIN                                                                  07/28/2012 15:54:38 PAGE 1   
+
+
+C51 COMPILER V7.06, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+stmt level    source
+
+   1          
+   2          /***************************************************************************************************    
+   3          工程名称：      8smg
+   4          功能描述：      控制数码管8位全部显示"E"
+   5          硬件连接：  用8位杜邦线将J8与J12连接，2位杜邦线分别将J11_0与J15_DS1、J11_1与J15_DS2连接。
+   6          维护记录：  2011-8-22
+   7          ***************************************************************************************************/
+   8          #include "reg51.h"       //包含头文件
+   9          
+  10          sbit LE1=P2^0;           //位选573锁存器使能
+  11          sbit LE2=P2^1;           //段选573锁存器使能
+  12          
+  13          
+  14          #define uchar unsigned char
+  15          #define uint  unsigned int
+  16          
+  17          //**************************************************************************************************
+  18          //主函数
+  19          //**************************************************************************************************
+  20          void main()               //主函数
+  21          { 
+  22   1       while(1)                 //进入while死循环
+  23   1        {
+  24   2           P1=0x00;             //0x00=0000 0000,即选通数码管的全部8位
+  25   2           LE1=1;               //锁存位
+  26   2           LE1=0;               //断开锁存,位选573的Q7~Q0仍为0x00
+  27   2      
+  28   2           P1=0x79;             //0x79为"E"的编码
+  29   2           LE2=1;               //锁存段码
+  30   2           LE2=0;               //断开锁存,段选573的Q7~Q0仍为0x79
+  31   2         }         
+  32   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     16    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

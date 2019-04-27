@@ -1,0 +1,115 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        04/27/2019  17:56:46  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\KEIL4\C51\BIN\BL51.EXE main.obj TO smg_scan RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  main.obj (MAIN)
+  D:\KEIL4\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  smg_scan (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0002H     UNIT         ?DT?MAIN
+            IDATA   000AH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0030H     UNIT         ?PR?SCAN?MAIN
+            CODE    0033H     0020H     UNIT         ?PR?_DELAY?MAIN
+            CODE    0053H     0010H     UNIT         ?CO?MAIN
+            CODE    0063H     000CH     UNIT         ?C_C51STARTUP
+            CODE    006FH     000BH     UNIT         ?PR?MAIN?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   smg_scan (MAIN)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN
+  +--> ?PR?SCAN?MAIN
+
+?PR?SCAN?MAIN
+  +--> ?CO?MAIN
+  +--> ?PR?_DELAY?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  smg_scan (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/27/2019  17:56:46  PAGE 2
+
+
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  C:0033H         PUBLIC        _delay
+  C:006FH         PUBLIC        main
+  C:0003H         PUBLIC        scan
+  C:0053H         PUBLIC        dis
+  B:00A0H.0       PUBLIC        LE1
+  B:00A0H.1       PUBLIC        LE2
+  D:0008H         PUBLIC        wei
+  D:0009H         PUBLIC        i
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        time
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:0033H         LINE#         29
+  C:0033H         LINE#         30
+  C:0033H         LINE#         32
+  C:003DH         LINE#         33
+  C:0052H         LINE#         34
+  -------         ENDPROC       _DELAY
+  -------         PROC          SCAN
+  C:0003H         LINE#         38
+  C:0003H         LINE#         39
+  C:0003H         LINE#         40
+  C:0008H         LINE#         41
+  C:000AH         LINE#         42
+  C:000CH         LINE#         43
+  C:0012H         LINE#         45
+  C:001AH         LINE#         46
+  C:001CH         LINE#         47
+  C:001EH         LINE#         48
+  C:0020H         LINE#         49
+  C:0027H         LINE#         51
+  C:0032H         LINE#         53
+  -------         ENDPROC       SCAN
+  -------         PROC          MAIN
+  C:006FH         LINE#         57
+  C:006FH         LINE#         58
+  C:006FH         LINE#         59
+  C:0072H         LINE#         60
+  C:0075H         LINE#         61
+  C:0075H         LINE#         62
+  C:0075H         LINE#         63
+  C:0078H         LINE#         64
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+Program Size: data=11.0 xdata=0 code=122
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

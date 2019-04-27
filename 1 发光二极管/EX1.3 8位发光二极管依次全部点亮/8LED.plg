@@ -1,0 +1,39 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+I:\3 实验教程及配套源码\1 发光二极管\EX1.3 8位发光二极管依次全部点亮\8LED.uvproj
+Project File Date:  09/11/2015
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(25): warning C290: missing return value
+linking...
+Program Size: data=10.0 xdata=0 code=74
+creating hex file from "8LED"...
+"8LED" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(25): warning C290: missing return value
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY?MAIN
+Program Size: data=9.0 xdata=0 code=59
+creating hex file from "8LED"...
+"8LED" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(25): warning C290: missing return value
+linking...
+Program Size: data=10.0 xdata=0 code=74
+creating hex file from "8LED"...
+"8LED" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(25): warning C290: missing return value
+linking...
+Program Size: data=10.0 xdata=0 code=74
+creating hex file from "8LED"...
+"8LED" - 0 Error(s), 1 Warning(s).

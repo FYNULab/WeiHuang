@@ -1,0 +1,165 @@
+BL51 BANKED LINKER/LOCATER V5.03                                                        07/28/2012  15:59:52  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V5.03, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE main.obj TO RS485 RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  main.obj (MAIN)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  RS485 (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0001H     UNIT         ?DT?MAIN
+                    0009H     0017H                  *** GAP ***
+            BIT     0020H.0   0000H.1   UNIT         ?BI?MAIN
+                    0020H.1   0000H.7                *** GAP ***
+            IDATA   0021H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0020H     UNIT         ?PR?_DELAY?MAIN
+            CODE    0023H     0003H     ABSOLUTE     
+            CODE    0026H     008CH     UNIT         ?C_C51STARTUP
+            CODE    00B2H     0030H     UNIT         ?PR?MAIN?MAIN
+            CODE    00E2H     0015H     UNIT         ?PR?INIT_COM?MAIN
+            CODE    00F7H     000BH     UNIT         ?PR?SERIAL?MAIN
+            CODE    0102H     0008H     UNIT         ?PR?_SEND_CHAR?MAIN
+            CODE    010AH     0003H     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   RS485 (MAIN)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN
+  +--> ?PR?INIT_COM?MAIN
+  +--> ?PR?_DELAY?MAIN
+  +--> ?PR?_SEND_CHAR?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  RS485 (MAIN)
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  15:59:52  PAGE 2
+
+
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  C:00F7H         PUBLIC        serial
+  C:0102H         PUBLIC        _send_char
+  D:00A8H         PUBLIC        IE
+  B:00B0H.2       PUBLIC        RE
+  B:0020H.0       PUBLIC        read_flag
+  B:0098H.0       PUBLIC        RI
+  B:0098H.1       PUBLIC        TI
+  C:00B2H         PUBLIC        main
+  D:0099H         PUBLIC        SBUF
+  D:0087H         PUBLIC        PCON
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0008H         PUBLIC        ch
+  D:008DH         PUBLIC        TH1
+  D:008BH         PUBLIC        TL1
+  B:0080H.0       PUBLIC        LED
+  C:00E2H         PUBLIC        init_com
+  B:0088H.6       PUBLIC        TR1
+  B:00A0H.0       PUBLIC        KEY
+  C:0003H         PUBLIC        _delay
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        time
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:0003H         LINE#         28
+  C:0003H         LINE#         29
+  C:0003H         LINE#         31
+  C:000DH         LINE#         32
+  C:0022H         LINE#         33
+  -------         ENDPROC       _DELAY
+  -------         PROC          INIT_COM
+  C:00E2H         LINE#         37
+  C:00E2H         LINE#         38
+  C:00E2H         LINE#         39
+  C:00E5H         LINE#         40
+  C:00E8H         LINE#         41
+  C:00EBH         LINE#         44
+  C:00EEH         LINE#         45
+  C:00F1H         LINE#         46
+  C:00F4H         LINE#         47
+  C:00F6H         LINE#         48
+  -------         ENDPROC       INIT_COM
+  -------         PROC          SERIAL
+  C:00F7H         LINE#         52
+  C:00F7H         LINE#         55
+  C:00FAH         LINE#         56
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  15:59:52  PAGE 3
+
+
+  C:00FAH         LINE#         57
+  C:00FCH         LINE#         58
+  C:00FFH         LINE#         59
+  C:0101H         LINE#         60
+  C:0101H         LINE#         62
+  -------         ENDPROC       SERIAL
+  -------         PROC          _SEND_CHAR
+  D:0007H         SYMBOL        ch1
+  C:0102H         LINE#         66
+  C:0102H         LINE#         68
+  C:0102H         LINE#         69
+  C:0104H         LINE#         70
+  C:0107H         LINE#         71
+  C:0109H         LINE#         73
+  -------         ENDPROC       _SEND_CHAR
+  -------         PROC          MAIN
+  C:00B2H         LINE#         77
+  C:00B2H         LINE#         78
+  C:00B2H         LINE#         79
+  C:00B5H         LINE#         80
+  C:00B5H         LINE#         81
+  C:00B5H         LINE#         82
+  C:00B8H         LINE#         83
+  C:00B8H         LINE#         84
+  C:00BFH         LINE#         85
+  C:00C2H         LINE#         86
+  C:00C4H         LINE#         87
+  C:00C9H         LINE#         88
+  C:00C9H         LINE#         90
+  C:00CBH         LINE#         91
+  C:00CEH         LINE#         92
+  C:00CEH         LINE#         93
+  C:00D0H         LINE#         94
+  C:00D5H         LINE#         95
+  C:00E0H         LINE#         96
+  C:00E0H         LINE#         97
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+Program Size: data=10.1 xdata=0 code=269
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

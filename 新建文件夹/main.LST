@@ -1,0 +1,71 @@
+C51 COMPILER V9.01   MAIN                                                                  04/15/2017 15:10:04 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: d:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          
+   2          #include "key.h"       //包含头文件
+   3          #include "smg.h"
+   4          
+   5          
+   6          uchar keyvalue;
+   7          int timecounter=0;
+   8          
+   9          
+  10          //定时器中断子程序****************************************************************************************
+             -*****
+  11          t0() interrupt 1  
+  12          {
+  13   1              TH0 = 0xfc;
+  14   1              TL0 = 0x17;
+  15   1              if(++timecounter>=1000) {
+  16   2              timecounter=1;  
+  17   2               display();               }
+  18   1                      
+  19   1      }
+  20          
+  21          //定时器中断初始化函数************************************************************************************
+             -**************
+  22          void T0_init(void)        //扫描频率为100HZ,即需定时1/100=00.01s
+  23          {
+  24   1              TMOD = 0x01;
+  25   1      
+  26   1              TH0 = (65535-100)/256;
+  27   1              TL0 = (65535-100)%256;
+  28   1      
+  29   1              TR0 = 1;
+  30   1              ET0 = 1;
+  31   1      
+  32   1              EA = 1;
+  33   1      }
+  34          //**************************************************************************************************
+  35          //主函数
+  36          //**************************************************************************************************
+  37          void main()                        //主函数
+  38          {
+  39   1           T0_init();                    //初始化定时器中断
+  40   1           while(1)
+  41   1               {
+  42   2                       
+  43   2               }          
+  44   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    111    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3    ----
+   IDATA SIZE       =   ----    ----
+C51 COMPILER V9.01   MAIN                                                                  04/15/2017 15:10:04 PAGE 2   
+
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

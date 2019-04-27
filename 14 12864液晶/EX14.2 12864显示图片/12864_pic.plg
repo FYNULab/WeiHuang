@@ -1,0 +1,20 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+F:\炜煌电子51开发板光盘\3 实验教程及配套源码\14 12864液晶\EX14.2 12864显示图片\12864_pic.uvproj
+Project File Date:  10/12/2014
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(159): warning C290: missing return value
+MAIN.C(170): warning C290: missing return value
+MAIN.C(183): warning C290: missing return value
+MAIN.C(196): warning C290: missing return value
+MAIN.C(212): warning C290: missing return value
+linking...
+Program Size: data=14.0 xdata=0 code=2295
+creating hex file from "12864_pic"...
+"12864_pic" - 0 Error(s), 5 Warning(s).

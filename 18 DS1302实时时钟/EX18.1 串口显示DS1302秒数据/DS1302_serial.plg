@@ -1,0 +1,117 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+F:\张文\炜煌电子51开发板光盘\3 实验教程及配套源码\18 DS1302实时时钟\EX18.1 串口显示DS1302秒数据\DS1302_serial.uvproj
+Project File Date:  11/21/2015
+
+<h2>Output:</h2>
+compiling ds1302.c...
+ds1302.c - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(35): warning C290: missing return value
+compiling serial.c...
+linking...
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  MAIN
+    MODULE:  ds1302.obj (DS1302)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?MAIN?DS1302
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  GETDS1302
+    MODULE:  main.obj (MAIN)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  TIME
+    MODULE:  main.obj (MAIN)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  INITDS1302
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  INITDS1302
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 026FH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  GETDS1302
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0272H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  TIME
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0275H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  MAIN
+    MODULE:  D:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+    ADDRESS: 0109H
+Program Size: data=27.2 xdata=0 code=799
+Target not created
+compiling ds1302.c...
+ds1302.c - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+linking...
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  MAIN
+    MODULE:  ds1302.obj (DS1302)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?MAIN?DS1302
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  GETDS1302
+    MODULE:  main.obj (MAIN)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  TIME
+    MODULE:  main.obj (MAIN)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  INITDS1302
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  INITDS1302
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 026FH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  GETDS1302
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0272H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  TIME
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0275H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  MAIN
+    MODULE:  D:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+    ADDRESS: 0109H
+Program Size: data=27.2 xdata=0 code=799
+Target not created
+compiling ds1302.c...
+ds1302.c - 0 Error(s), 0 Warning(s).
+compiling ds1302.c...
+ds1302.c - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+linking...
+Program Size: data=31.1 xdata=0 code=580
+creating hex file from "DS1302_serial"...
+"DS1302_serial" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(35): warning C290: missing return value
+compiling ds1302.c...
+compiling serial.c...
+linking...
+Program Size: data=31.1 xdata=0 code=580
+creating hex file from "DS1302_serial"...
+"DS1302_serial" - 0 Error(s), 1 Warning(s).
+compiling main.c...
+main.c - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+linking...
+Program Size: data=31.1 xdata=0 code=580
+creating hex file from "DS1302_serial"...
+"DS1302_serial" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+compiling ds1302.c...
+compiling serial.c...
+linking...
+Program Size: data=31.1 xdata=0 code=580
+creating hex file from "DS1302_serial"...
+"DS1302_serial" - 0 Error(s), 0 Warning(s).

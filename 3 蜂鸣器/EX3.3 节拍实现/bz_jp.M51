@@ -1,0 +1,121 @@
+BL51 BANKED LINKER/LOCATER V5.03                                                        07/28/2012  15:55:56  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V5.03, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE main.obj TO bz_jp RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  main.obj (MAIN)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  bz_jp (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0002H     UNIT         _DATA_GROUP_
+            IDATA   000AH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0073H     UNIT         ?PR?PLAY_JP?MAIN
+            CODE    0076H     0020H     UNIT         ?PR?_DELAY?MAIN
+            CODE    0096H     001CH     UNIT         ?CO?MAIN
+            CODE    00B2H     000EH     UNIT         ?PR?MAIN?MAIN
+            CODE    00C0H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   bz_jp (MAIN)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN                  -----    -----
+  +--> ?PR?PLAY_JP?MAIN
+  +--> ?PR?_DELAY?MAIN
+
+?PR?PLAY_JP?MAIN               0008H    0002H
+  +--> ?CO?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  bz_jp (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  15:55:56  PAGE 2
+
+
+  D:0080H         PUBLIC        P0
+  B:0080H.0       PUBLIC        BZ
+  C:00B2H         PUBLIC        main
+  C:00A4H         PUBLIC        SOUNDLONG
+  C:0096H         PUBLIC        SOUNDTONE
+  C:0003H         PUBLIC        Play_jp
+  C:0076H         PUBLIC        _delay
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        time
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:0076H         LINE#         21
+  C:0076H         LINE#         22
+  C:0076H         LINE#         24
+  C:0080H         LINE#         25
+  C:0095H         LINE#         26
+  -------         ENDPROC       _DELAY
+  -------         PROC          PLAY_JP
+  -------         DO            
+  D:0008H         SYMBOL        Tone
+  D:0006H         SYMBOL        Long
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  D:0082H         SYMBOL        k
+  -------         ENDDO         
+  C:0003H         LINE#         30
+  C:0003H         LINE#         31
+  C:0003H         LINE#         34
+  C:0006H         LINE#         35
+  C:0006H         LINE#         36
+  C:0020H         LINE#         37
+  C:0031H         LINE#         38
+  C:003BH         LINE#         39
+  C:003BH         LINE#         40
+  C:003DH         LINE#         41
+  C:004EH         LINE#         42
+  C:0050H         LINE#         43
+  C:0063H         LINE#         44
+  C:006AH         LINE#         45
+  C:0075H         LINE#         46
+  -------         ENDPROC       PLAY_JP
+  -------         PROC          MAIN
+  C:00B2H         LINE#         50
+  C:00B2H         LINE#         51
+  C:00B2H         LINE#         52
+  C:00B2H         LINE#         53
+  C:00B2H         LINE#         54
+  C:00B5H         LINE#         55
+  C:00B7H         LINE#         56
+  C:00BEH         LINE#         57
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+Program Size: data=11.0 xdata=0 code=204
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

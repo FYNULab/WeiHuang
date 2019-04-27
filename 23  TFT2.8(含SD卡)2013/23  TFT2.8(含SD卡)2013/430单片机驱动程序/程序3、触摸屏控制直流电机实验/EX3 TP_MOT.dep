@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project>
+  <fileVersion>2</fileVersion>
+  <fileChecksum>3122692976</fileChecksum>
+  <configuration>
+    <name>Debug</name>
+    <outputs>
+      <file>$PROJ_DIR$\Debug\Obj\NBCTFT.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\intrinsics.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\TP.r43</file>
+      <file>$PROJ_DIR$\Debug\Obj\TP.pbi</file>
+      <file>$TOOLKIT_DIR$\config\multiplier.xcl</file>
+      <file>$TOOLKIT_DIR$\inc\io430.h</file>
+      <file>$TOOLKIT_DIR$\lib\dlib\dl430fn.r43</file>
+      <file>$TOOLKIT_DIR$\inc\io430x14x.h</file>
+      <file>$PROJ_DIR$\..\..\..\2.6&#x5BF8;TFT&#x8D44;&#x6599;\430&#x5355;&#x7247;&#x673A;&#x9A71;&#x52A8;&#x7A0B;&#x5e8F;\&#x7A0B;&#x5e8F;3&#x3001;&#x89e6;&#x6478;&#x5C4F;&#x63A7;&#x5236;&#x76F4;&#x6D41;&#x7535;&#x673A;&#x5B9e;&#x9A8C;\main.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.r43</file>
+      <file>$TOOLKIT_DIR$\inc\in430.h</file>
+      <file>$TOOLKIT_DIR$\config\lnk430F149.xcl</file>
+      <file>$PROJ_DIR$\Debug\Exe\EX3 TP_MOT.d43</file>
+      <file>$PROJ_DIR$\Debug\Obj\EX3 TP_MOT.pbd</file>
+      <file>$PROJ_DIR$\TP.C</file>
+      <file>$PROJ_DIR$\TP.H</file>
+      <file>$PROJ_DIR$\Debug\Exe\EX3 TP_MOT.txt</file>
+      <file>$PROJ_DIR$\chinese.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\NBCTFT.r43</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\Ascii_8x16.h</file>
+      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\nbc430.h</file>
+      <file>$PROJ_DIR$\NBCTFT.C</file>
+      <file>$PROJ_DIR$\NBCTFT.H</file>
+    </outputs>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 16</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Exe\EX3 TP_MOT.d43</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 11 4 18 2 9 6</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Obj\EX3 TP_MOT.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 0 3 19</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\TP.C</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 3</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 2</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 5 22</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 5 7 22</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Exe\EX3 TP_MOT.txt</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 11 4 18 2 9 6</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\main.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 19</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 9</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 5 22 24 15 10 1</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 5 7 22 24 15 10 1</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\NBCTFT.C</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 0</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 18</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 5 22 20 17</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 5 7 22 20 17</file>
+        </tool>
+      </inputs>
+    </file>
+  </configuration>
+  <configuration>
+    <name>Release</name>
+    <outputs/>
+    <forcedrebuild>
+      <name>[MULTI_TOOL]</name>
+      <tool>XLINK</tool>
+    </forcedrebuild>
+  </configuration>
+</project>
+
+

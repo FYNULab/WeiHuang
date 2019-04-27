@@ -1,0 +1,324 @@
+BL51 BANKED LINKER/LOCATER V5.03                                                        07/28/2012  09:11:48  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V5.03, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE 1602.obj, main.obj, PS2.obj TO PS2_1602 RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  1602.obj (1602)
+  main.obj (MAIN)
+  PS2.obj (PS2)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  PS2_1602 (1602)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0003H     UNIT         ?DT?PS2
+            DATA    000BH     0001H     UNIT         _DATA_GROUP_
+                    000CH     0014H                  *** GAP ***
+            BIT     0020H.0   0000H.3   UNIT         ?BI?PS2
+                    0020H.3   0000H.5                *** GAP ***
+            DATA    0021H     0021H     UNIT         ?DT?1602
+            IDATA   0042H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0003H     ABSOLUTE     
+            CODE    0006H     009DH     UNIT         ?PR?CODE_SHOW?PS2
+            CODE    00A3H     008CH     UNIT         ?C_C51STARTUP
+            CODE    012FH     0076H     UNIT         ?CO?PS2
+            CODE    01A5H     0035H     UNIT         ?PR?KEY_IN?PS2
+            CODE    01DAH     002AH     UNIT         ?PR?_DELAY?1602
+            CODE    0204H     0025H     UNIT         ?C_INITSEG
+            CODE    0229H     0015H     UNIT         ?PR?XIAN1?1602
+            CODE    023EH     0015H     UNIT         ?PR?XIAN2?1602
+            CODE    0253H     0014H     UNIT         ?PR?INITLCD?1602
+            CODE    0267H     0014H     UNIT         ?PR?MAIN?MAIN
+            CODE    027BH     0009H     UNIT         ?PR?KEY_SHOW?PS2
+            CODE    0284H     0008H     UNIT         ?PR?_WCODE?1602
+            CODE    028CH     0008H     UNIT         ?PR?_WDATA?1602
+
+
+
+OVERLAY MAP OF MODULE:   PS2_1602 (1602)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?MAIN
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  09:11:48  PAGE 2
+
+
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN                  -----    -----
+  +--> ?PR?INITLCD?1602
+  +--> ?PR?XIAN1?1602
+  +--> ?PR?XIAN2?1602
+  +--> ?PR?KEY_SHOW?PS2
+
+?PR?INITLCD?1602               -----    -----
+  +--> ?PR?_WCODE?1602
+
+?PR?_WCODE?1602                -----    -----
+  +--> ?PR?_DELAY?1602
+
+?PR?XIAN1?1602                 -----    -----
+  +--> ?PR?_WCODE?1602
+  +--> ?PR?_WDATA?1602
+
+?PR?_WDATA?1602                -----    -----
+  +--> ?PR?_DELAY?1602
+
+?PR?XIAN2?1602                 -----    -----
+  +--> ?PR?_WCODE?1602
+  +--> ?PR?_WDATA?1602
+
+?PR?KEY_SHOW?PS2               -----    -----
+  +--> ?PR?CODE_SHOW?PS2
+
+?PR?CODE_SHOW?PS2              000BH    0001H
+  +--> ?PR?_WCODE?1602
+  +--> ?CO?PS2
+  +--> ?PR?_WDATA?1602
+
+
+
+SYMBOL TABLE OF MODULE:  PS2_1602 (1602)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        1602
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:00A0H         PUBLIC        P2
+  D:0021H         PUBLIC        alaflag
+  C:0229H         PUBLIC        xian1
+  C:023EH         PUBLIC        xian2
+  B:00A0H.3       PUBLIC        e
+  B:00A0H.5       PUBLIC        rs
+  B:00A0H.4       PUBLIC        rw
+  C:0253H         PUBLIC        InitLCD
+  C:01E4H         PUBLIC        _delay
+  D:0022H         PUBLIC        dis1
+  C:028CH         PUBLIC        _wdata
+  D:0032H         PUBLIC        dis2
+  C:0284H         PUBLIC        _wcode
+  -------         PROC          L?0021
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  09:11:48  PAGE 3
+
+
+  -------         ENDPROC       L?0021
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        time
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:01E4H         LINE#         28
+  C:01E4H         LINE#         29
+  C:01E4H         LINE#         31
+  C:01EEH         LINE#         32
+  C:0203H         LINE#         33
+  -------         ENDPROC       _DELAY
+  -------         PROC          _WCODE
+  D:0007H         SYMBOL        t
+  C:0284H         LINE#         37
+  C:0284H         LINE#         38
+  C:0284H         LINE#         39
+  C:0286H         LINE#         40
+  C:0286H         LINE#         41
+  C:0286H         LINE#         42
+  C:0286H         LINE#         43
+  C:0289H         LINE#         44
+  C:028BH         LINE#         45
+  -------         ENDPROC       _WCODE
+  -------         PROC          _WDATA
+  D:0007H         SYMBOL        t
+  C:028CH         LINE#         49
+  C:028CH         LINE#         50
+  C:028CH         LINE#         51
+  C:028EH         LINE#         52
+  C:028EH         LINE#         53
+  C:028EH         LINE#         54
+  C:028EH         LINE#         55
+  C:0291H         LINE#         56
+  C:0293H         LINE#         57
+  -------         ENDPROC       _WDATA
+  -------         PROC          XIAN1
+  -------         DO            
+  D:0001H         SYMBOL        i
+  -------         ENDDO         
+  C:0229H         LINE#         61
+  C:0229H         LINE#         62
+  C:0229H         LINE#         64
+  C:022EH         LINE#         65
+  C:0230H         LINE#         66
+  C:0230H         LINE#         67
+  C:0239H         LINE#         68
+  C:023DH         LINE#         69
+  -------         ENDPROC       XIAN1
+  -------         PROC          XIAN2
+  -------         DO            
+  D:0001H         SYMBOL        i
+  -------         ENDDO         
+  C:023EH         LINE#         73
+  C:023EH         LINE#         74
+  C:023EH         LINE#         76
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  09:11:48  PAGE 4
+
+
+  C:0243H         LINE#         77
+  C:0245H         LINE#         78
+  C:0245H         LINE#         79
+  C:024EH         LINE#         80
+  C:0252H         LINE#         81
+  -------         ENDPROC       XIAN2
+  -------         PROC          INITLCD
+  C:0253H         LINE#         85
+  C:0253H         LINE#         86
+  C:0253H         LINE#         87
+  C:0258H         LINE#         88
+  C:025DH         LINE#         89
+  C:0262H         LINE#         90
+  -------         ENDPROC       INITLCD
+  -------         ENDMOD        1602
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  B:00A8H.7       PUBLIC        EA
+  C:0267H         PUBLIC        main
+  B:00A8H.0       PUBLIC        EX0
+  B:0088H.2       PUBLIC        IT1
+  -------         PROC          MAIN
+  C:0267H         LINE#         17
+  C:0267H         LINE#         18
+  C:0267H         LINE#         19
+  C:026AH         LINE#         20
+  C:026CH         LINE#         21
+  C:026EH         LINE#         22
+  C:0270H         LINE#         23
+  C:0273H         LINE#         24
+  C:0276H         LINE#         25
+  C:0276H         LINE#         26
+  C:0276H         LINE#         27
+  C:0279H         LINE#         28
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        PS2
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  B:0020H.0       PUBLIC        Shift
+  C:01A5H         PUBLIC        key_in
+  D:00B0H         PUBLIC        P3
+  D:0008H         PUBLIC        LCD_num
+  B:00A8H.7       PUBLIC        EA
+  D:0009H         PUBLIC        n_bit
+  B:0020H.1       PUBLIC        flag
+  C:0006H         PUBLIC        Code_show
+  B:0020H.2       PUBLIC        Key_UP
+  C:012FH         PUBLIC        key_code
+  D:000AH         PUBLIC        key_value
+  B:00B0H.3       PUBLIC        Key_DAT
+  B:00B0H.2       PUBLIC        Key_CLK
+  C:027BH         PUBLIC        key_show
+  -------         PROC          KEY_IN
+  C:01A5H         LINE#         39
+  C:01A9H         LINE#         41
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  09:11:48  PAGE 5
+
+
+  C:01B6H         LINE#         42
+  C:01B6H         LINE#         43
+  C:01BCH         LINE#         44
+  C:01BFH         LINE#         45
+  C:01C2H         LINE#         46
+  C:01C2H         LINE#         47
+  C:01C4H         LINE#         48
+  C:01C7H         LINE#         50
+  C:01CEH         LINE#         51
+  C:01CEH         LINE#         52
+  C:01D1H         LINE#         53
+  C:01D3H         LINE#         54
+  C:01D5H         LINE#         55
+  C:01D5H         LINE#         57
+  -------         ENDPROC       KEY_IN
+  -------         PROC          CODE_SHOW
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:000BH         SYMBOL        show_data
+  -------         ENDDO         
+  C:0006H         LINE#         62
+  C:0006H         LINE#         63
+  C:0006H         LINE#         65
+  C:000FH         LINE#         66
+  C:0012H         LINE#         67
+  C:0012H         LINE#         68
+  C:0020H         LINE#         69
+  C:0020H         LINE#         70
+  C:0020H         LINE#         71
+  C:0022H         LINE#         72
+  C:0024H         LINE#         74
+  C:0024H         LINE#         75
+  C:0026H         LINE#         76
+  C:0028H         LINE#         77
+  C:0028H         LINE#         81
+  C:0028H         LINE#         83
+  C:0045H         LINE#         85
+  C:0055H         LINE#         87
+  C:0064H         LINE#         88
+  C:006EH         LINE#         90
+  C:0078H         LINE#         91
+  C:007DH         LINE#         93
+  C:007FH         LINE#         94
+  C:0084H         LINE#         95
+  C:0084H         LINE#         96
+  C:0089H         LINE#         97
+  C:008CH         LINE#         98
+  C:008CH         LINE#         99
+  C:008EH         LINE#         100
+  C:008EH         LINE#         101
+  C:008EH         LINE#         103
+  C:008EH         LINE#         104
+  C:0090H         LINE#         105
+  C:009AH         LINE#         106
+  C:009AH         LINE#         107
+  C:009AH         LINE#         108
+  C:009CH         LINE#         109
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  09:11:48  PAGE 6
+
+
+  C:009EH         LINE#         111
+  C:009EH         LINE#         112
+  C:00A0H         LINE#         113
+  C:00A0H         LINE#         114
+  C:00A0H         LINE#         115
+  C:00A0H         LINE#         116
+  C:00A2H         LINE#         118
+  -------         ENDPROC       CODE_SHOW
+  -------         PROC          KEY_SHOW
+  C:027BH         LINE#         123
+  C:027BH         LINE#         124
+  C:027BH         LINE#         126
+  C:027EH         LINE#         127
+  C:0281H         LINE#         129
+  C:0283H         LINE#         130
+  -------         ENDPROC       KEY_SHOW
+  -------         ENDMOD        PS2
+
+Program Size: data=46.3 xdata=0 code=660
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

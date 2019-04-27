@@ -1,0 +1,331 @@
+BL51 BANKED LINKER/LOCATER V5.03                                                        07/28/2012  09:28:31  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V5.03, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE main.obj, PCF8591.obj TO NTC_SMG RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  main.obj (MAIN)
+  PCF8591.obj (PCF8591)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?IMUL)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  NTC_SMG (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0010H     UNIT         ?DT?PCF8591
+            DATA    0018H     0001H     UNIT         ?DT?MAIN
+            DATA    0019H     0001H     UNIT         _DATA_GROUP_
+                    001AH     0006H                  *** GAP ***
+            BIT     0020H.0   0000H.1   UNIT         _BIT_GROUP_
+                    0020H.1   0000H.7                *** GAP ***
+            IDATA   0021H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
+            CODE    008FH     0088H     UNIT         ?CO?MAIN
+            CODE    0117H     005CH     UNIT         ?PR?_SMG_SHOW?MAIN
+            CODE    0173H     004BH     UNIT         ?PR?MAIN?MAIN
+            CODE    01BEH     0029H     UNIT         ?PR?_DELAY?MAIN
+            CODE    01E7H     0027H     UNIT         ?PR?RECEIVE_BYTE?PCF8591
+            CODE    020EH     0026H     UNIT         ?PR?_SEND_BYTE?PCF8591
+            CODE    0234H     0025H     UNIT         ?PR?_READ_AD?PCF8591
+            CODE    0259H     0012H     UNIT         ?C?LIB_CODE
+            CODE    026BH     0010H     UNIT         ?PR?SENDACK?PCF8591
+            CODE    027BH     000DH     UNIT         ?PR?START?PCF8591
+            CODE    0288H     000BH     UNIT         ?C_INITSEG
+            CODE    0293H     000AH     UNIT         ?PR?STOP?PCF8591
+            CODE    029DH     000AH     UNIT         ?PR?CHECKACK?PCF8591
+
+
+
+OVERLAY MAP OF MODULE:   NTC_SMG (MAIN)
+
+
+SEGMENT                             BIT_GROUP          DATA_GROUP 
+  +--> CALLED SEGMENT            START    LENGTH     START    LENGTH
+--------------------------------------------------------------------
+?C_C51STARTUP                    -----    -----      -----    -----
+  +--> ?PR?MAIN?MAIN
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  09:28:31  PAGE 2
+
+
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN                    -----    -----      0019H    0001H
+  +--> ?PR?_READ_AD?PCF8591
+  +--> ?CO?MAIN
+  +--> ?PR?_SMG_SHOW?MAIN
+
+?PR?_READ_AD?PCF8591             -----    -----      -----    -----
+  +--> ?PR?START?PCF8591
+  +--> ?PR?_SEND_BYTE?PCF8591
+  +--> ?PR?RECEIVE_BYTE?PCF8591
+  +--> ?PR?SENDACK?PCF8591
+  +--> ?PR?STOP?PCF8591
+
+?PR?_SEND_BYTE?PCF8591           -----    -----      -----    -----
+  +--> ?PR?CHECKACK?PCF8591
+
+?PR?RECEIVE_BYTE?PCF8591         -----    -----      -----    -----
+  +--> ?PR?SENDACK?PCF8591
+
+?PR?SENDACK?PCF8591              0020H.0  0000H.1    -----    -----
+
+?PR?_SMG_SHOW?MAIN               -----    -----      -----    -----
+  +--> ?PR?_DELAY?MAIN
+  +--> ?CO?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  NTC_SMG (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:0018H         PUBLIC        flag
+  C:0173H         PUBLIC        main
+  C:008FH         PUBLIC        dis
+  B:00A0H.0       PUBLIC        LE1
+  B:00A0H.1       PUBLIC        LE2
+  C:0117H         PUBLIC        _smg_show
+  C:009FH         PUBLIC        vt_table
+  C:01C7H         PUBLIC        _delay
+  -------         PROC          L?0021
+  -------         ENDPROC       L?0021
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        time
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:01C7H         LINE#         39
+  C:01C7H         LINE#         40
+  C:01C7H         LINE#         42
+  C:01D1H         LINE#         43
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  09:28:31  PAGE 3
+
+
+  C:01E6H         LINE#         44
+  -------         ENDPROC       _DELAY
+  -------         PROC          _SMG_SHOW
+  D:0001H         SYMBOL        n
+  C:0117H         LINE#         48
+  C:0119H         LINE#         49
+  C:0119H         LINE#         51
+  C:011CH         LINE#         52
+  C:011EH         LINE#         53
+  C:0120H         LINE#         54
+  C:012CH         LINE#         55
+  C:012FH         LINE#         56
+  C:0131H         LINE#         57
+  C:0133H         LINE#         58
+  C:013AH         LINE#         60
+  C:0141H         LINE#         62
+  C:0144H         LINE#         63
+  C:0146H         LINE#         64
+  C:0148H         LINE#         65
+  C:0150H         LINE#         66
+  C:0150H         LINE#         67
+  C:0150H         LINE#         68
+  C:0153H         LINE#         70
+  C:015AH         LINE#         72
+  C:015DH         LINE#         73
+  C:015FH         LINE#         74
+  C:0161H         LINE#         75
+  C:0168H         LINE#         76
+  C:0168H         LINE#         77
+  C:0168H         LINE#         78
+  C:016BH         LINE#         80
+  C:0172H         LINE#         82
+  -------         ENDPROC       _SMG_SHOW
+  -------         PROC          MAIN
+  -------         DO            
+  D:0005H         SYMBOL        i
+  D:0019H         SYMBOL        value
+  D:0006H         SYMBOL        temp
+  -------         ENDDO         
+  C:0173H         LINE#         86
+  C:0173H         LINE#         87
+  C:0173H         LINE#         90
+  C:0173H         LINE#         91
+  C:0173H         LINE#         92
+  C:017AH         LINE#         93
+  C:0181H         LINE#         94
+  C:01A1H         LINE#         95
+  C:01B2H         LINE#         96
+  C:01B7H         LINE#         97
+  C:01BCH         LINE#         99
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        PCF8591
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:01E7H         PUBLIC        receive_byte
+  D:00A0H         PUBLIC        P2
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  09:28:31  PAGE 4
+
+
+  C:020EH         PUBLIC        _send_byte
+  C:027BH         PUBLIC        start
+  D:0008H         PUBLIC        temp
+  B:00A0H.7       PUBLIC        sda
+  C:0234H         PUBLIC        _Read_AD
+  B:00A0H.6       PUBLIC        scl
+  C:0293H         PUBLIC        stop
+  C:029DH         PUBLIC        checkACK
+  D:0010H         PUBLIC        temp1
+  C:026BH         PUBLIC        sendACK
+  -------         PROC          START
+  C:027BH         LINE#         20
+  C:027BH         LINE#         21
+  C:027BH         LINE#         22
+  C:027DH         LINE#         23
+  C:027EH         LINE#         24
+  C:0280H         LINE#         25
+  C:0281H         LINE#         26
+  C:0283H         LINE#         27
+  C:0284H         LINE#         28
+  C:0286H         LINE#         29
+  C:0287H         LINE#         30
+  -------         ENDPROC       START
+  -------         PROC          STOP
+  C:0293H         LINE#         34
+  C:0293H         LINE#         35
+  C:0293H         LINE#         36
+  C:0295H         LINE#         37
+  C:0296H         LINE#         38
+  C:0298H         LINE#         39
+  C:0299H         LINE#         40
+  C:029BH         LINE#         41
+  C:029CH         LINE#         42
+  -------         ENDPROC       STOP
+  -------         PROC          CHECKACK
+  C:029DH         LINE#         46
+  C:029DH         LINE#         47
+  C:029DH         LINE#         48
+  C:029FH         LINE#         49
+  C:02A0H         LINE#         50
+  C:02A3H         LINE#         51
+  C:02A5H         LINE#         52
+  C:02A6H         LINE#         53
+  -------         ENDPROC       CHECKACK
+  -------         PROC          SENDACK
+  B:0020H.0       SYMBOL        ACK
+  C:026BH         LINE#         57
+  C:026BH         LINE#         58
+  C:026BH         LINE#         59
+  C:0272H         LINE#         60
+  C:0274H         LINE#         61
+  C:0276H         LINE#         62
+  C:0277H         LINE#         63
+  C:0279H         LINE#         64
+  C:027AH         LINE#         65
+  -------         ENDPROC       SENDACK
+  -------         PROC          _SEND_BYTE
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  09:28:31  PAGE 5
+
+
+  D:0007H         SYMBOL        date
+  -------         DO            
+  D:0006H         SYMBOL        i
+  D:0007H         SYMBOL        temp
+  -------         ENDDO         
+  C:020EH         LINE#         69
+  C:020EH         LINE#         70
+  C:020EH         LINE#         72
+  C:020EH         LINE#         73
+  C:0210H         LINE#         74
+  C:0210H         LINE#         75
+  C:0218H         LINE#         76
+  C:021AH         LINE#         77
+  C:021BH         LINE#         78
+  C:021DH         LINE#         79
+  C:021EH         LINE#         80
+  C:021FH         LINE#         81
+  C:0220H         LINE#         82
+  C:0221H         LINE#         83
+  C:0222H         LINE#         84
+  C:0224H         LINE#         85
+  C:0225H         LINE#         86
+  C:0226H         LINE#         87
+  C:0227H         LINE#         88
+  C:0228H         LINE#         89
+  C:0229H         LINE#         90
+  C:022DH         LINE#         91
+  C:0231H         LINE#         92
+  -------         ENDPROC       _SEND_BYTE
+  -------         PROC          RECEIVE_BYTE
+  -------         DO            
+  D:0006H         SYMBOL        i
+  D:0007H         SYMBOL        temp
+  -------         ENDDO         
+  C:01E7H         LINE#         97
+  C:01E7H         LINE#         98
+  C:01E7H         LINE#         100
+  C:01E9H         LINE#         101
+  C:01EAH         LINE#         102
+  C:01ECH         LINE#         103
+  C:01ECH         LINE#         104
+  C:01EEH         LINE#         105
+  C:01EFH         LINE#         106
+  C:01F0H         LINE#         107
+  C:01F1H         LINE#         108
+  C:01F2H         LINE#         109
+  C:01F3H         LINE#         110
+  C:01FDH         LINE#         111
+  C:01FFH         LINE#         112
+  C:0200H         LINE#         113
+  C:0201H         LINE#         114
+  C:0202H         LINE#         115
+  C:0203H         LINE#         116
+  C:0204H         LINE#         117
+  C:0208H         LINE#         118
+  C:020DH         LINE#         119
+  C:020DH         LINE#         120
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  09:28:31  PAGE 6
+
+
+  -------         ENDPROC       RECEIVE_BYTE
+  -------         PROC          _READ_AD
+  D:0005H         SYMBOL        chn
+  -------         DO            
+  D:0007H         SYMBOL        ad_data
+  -------         ENDDO         
+  C:0234H         LINE#         124
+  C:0236H         LINE#         125
+  C:0236H         LINE#         127
+  C:0239H         LINE#         128
+  C:023EH         LINE#         129
+  C:0245H         LINE#         131
+  C:0248H         LINE#         132
+  C:024DH         LINE#         134
+  C:0250H         LINE#         135
+  C:0255H         LINE#         136
+  C:0258H         LINE#         137
+  C:0258H         LINE#         138
+  -------         ENDPROC       _READ_AD
+  -------         ENDMOD        PCF8591
+
+  -------         MODULE        ?C?IMUL
+  C:0259H         PUBLIC        ?C?IMUL
+  -------         ENDMOD        ?C?IMUL
+
+Program Size: data=27.1 xdata=0 code=679
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

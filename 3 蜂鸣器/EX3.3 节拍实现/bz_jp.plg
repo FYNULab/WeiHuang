@@ -1,0 +1,15 @@
+<html>
+<body>
+<pre>
+<h1>礦ision2 Build Log</h1>
+<h2>Project:</h2>
+H:\资料备份2012-7-5\产品营销\客户订单\合肥\定制硬件光盘\51\51开发板光盘\3 实验教程及配套源码\3 蜂鸣器\EX3.3 节拍实现\bz_jp.uv2
+Project File Date:  08/29/2011
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling main.c...
+linking...
+Program Size: data=11.0 xdata=0 code=204
+creating hex file from "bz_jp"...
+"bz_jp" - 0 Error(s), 0 Warning(s).

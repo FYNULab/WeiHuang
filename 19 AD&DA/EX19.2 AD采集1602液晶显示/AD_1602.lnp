@@ -1,0 +1,5 @@
+"1602.obj",
+"main.obj",
+"PCF8591.obj" 
+TO "AD_1602" 
+RAMSIZE(256) 

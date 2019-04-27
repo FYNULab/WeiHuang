@@ -1,0 +1,189 @@
+BL51 BANKED LINKER/LOCATER V5.03                                                        07/28/2012  10:15:14  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V5.03, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE main.obj TO 1602 RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  main.obj (MAIN)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  1602 (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0020H     UNIT         ?DT?MAIN
+            IDATA   0028H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
+            CODE    008FH     002AH     UNIT         ?PR?_DELAY?MAIN
+            CODE    00B9H     0025H     UNIT         ?C_INITSEG
+            CODE    00DEH     0015H     UNIT         ?PR?XIAN1?MAIN
+            CODE    00F3H     0015H     UNIT         ?PR?XIAN2?MAIN
+            CODE    0108H     0014H     UNIT         ?PR?INITLCD?MAIN
+            CODE    011CH     000BH     UNIT         ?PR?MAIN?MAIN
+            CODE    0127H     0008H     UNIT         ?PR?_WCODE?MAIN
+            CODE    012FH     0008H     UNIT         ?PR?_WDATA?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   1602 (MAIN)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN
+  +--> ?PR?INITLCD?MAIN
+  +--> ?PR?XIAN1?MAIN
+  +--> ?PR?XIAN2?MAIN
+
+?PR?INITLCD?MAIN
+  +--> ?PR?_WCODE?MAIN
+
+?PR?_WCODE?MAIN
+  +--> ?PR?_DELAY?MAIN
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  10:15:14  PAGE 2
+
+
+
+?PR?XIAN1?MAIN
+  +--> ?PR?_WCODE?MAIN
+  +--> ?PR?_WDATA?MAIN
+
+?PR?_WDATA?MAIN
+  +--> ?PR?_DELAY?MAIN
+
+?PR?XIAN2?MAIN
+  +--> ?PR?_WCODE?MAIN
+  +--> ?PR?_WDATA?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  1602 (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:00A0H         PUBLIC        P2
+  C:011CH         PUBLIC        main
+  C:00DEH         PUBLIC        xian1
+  C:00F3H         PUBLIC        xian2
+  B:00A0H.3       PUBLIC        e
+  B:00A0H.5       PUBLIC        rs
+  B:00A0H.4       PUBLIC        rw
+  C:0108H         PUBLIC        InitLCD
+  C:0099H         PUBLIC        _delay
+  D:0008H         PUBLIC        dis1
+  C:012FH         PUBLIC        _wdata
+  D:0018H         PUBLIC        dis2
+  C:0127H         PUBLIC        _wcode
+  -------         PROC          L?0024
+  -------         ENDPROC       L?0024
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        time
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:0099H         LINE#         21
+  C:0099H         LINE#         22
+  C:0099H         LINE#         24
+  C:00A3H         LINE#         25
+  C:00B8H         LINE#         26
+  -------         ENDPROC       _DELAY
+  -------         PROC          _WCODE
+  D:0007H         SYMBOL        t
+  C:0127H         LINE#         30
+  C:0127H         LINE#         31
+  C:0127H         LINE#         32
+  C:0129H         LINE#         33
+  C:0129H         LINE#         34
+  C:0129H         LINE#         35
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  10:15:14  PAGE 3
+
+
+  C:0129H         LINE#         36
+  C:012CH         LINE#         37
+  C:012EH         LINE#         38
+  -------         ENDPROC       _WCODE
+  -------         PROC          _WDATA
+  D:0007H         SYMBOL        t
+  C:012FH         LINE#         42
+  C:012FH         LINE#         43
+  C:012FH         LINE#         44
+  C:0131H         LINE#         45
+  C:0131H         LINE#         46
+  C:0131H         LINE#         47
+  C:0131H         LINE#         48
+  C:0134H         LINE#         49
+  C:0136H         LINE#         50
+  -------         ENDPROC       _WDATA
+  -------         PROC          XIAN1
+  -------         DO            
+  D:0001H         SYMBOL        i
+  -------         ENDDO         
+  C:00DEH         LINE#         54
+  C:00DEH         LINE#         55
+  C:00DEH         LINE#         57
+  C:00E3H         LINE#         58
+  C:00E5H         LINE#         59
+  C:00E5H         LINE#         60
+  C:00EEH         LINE#         61
+  C:00F2H         LINE#         62
+  -------         ENDPROC       XIAN1
+  -------         PROC          XIAN2
+  -------         DO            
+  D:0001H         SYMBOL        i
+  -------         ENDDO         
+  C:00F3H         LINE#         66
+  C:00F3H         LINE#         67
+  C:00F3H         LINE#         69
+  C:00F8H         LINE#         70
+  C:00FAH         LINE#         71
+  C:00FAH         LINE#         72
+  C:0103H         LINE#         73
+  C:0107H         LINE#         74
+  -------         ENDPROC       XIAN2
+  -------         PROC          INITLCD
+  C:0108H         LINE#         78
+  C:0108H         LINE#         79
+  C:0108H         LINE#         80
+  C:010DH         LINE#         81
+  C:0112H         LINE#         82
+  C:0117H         LINE#         83
+  -------         ENDPROC       INITLCD
+  -------         PROC          MAIN
+  C:011CH         LINE#         88
+  C:011CH         LINE#         89
+  C:011CH         LINE#         90
+  C:011FH         LINE#         91
+  C:0122H         LINE#         92
+  C:0125H         LINE#         93
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  10:15:14  PAGE 4
+
+
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+Program Size: data=41.0 xdata=0 code=311
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

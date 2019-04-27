@@ -1,0 +1,53 @@
+C51 COMPILER V7.06   MAIN                                                                  07/28/2012 10:01:51 PAGE 1   
+
+
+C51 COMPILER V7.06, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+stmt level    source
+
+   1          /***************************************************************************************************    
+   2          工程名称：      hw
+   3          功能描述：      将卡片放置红外对管中间，8位发光二极管被点亮，拿掉卡片，发光二极管熄灭。
+   4          硬件连接：  用8位杜邦线将J8与J13连接，1位杜邦线将J11_0与J5_OUT连接，J5的第7位与J5的第8位用跳帽短接
+   5          维护记录：  2011-8-22
+   6          ***************************************************************************************************/
+   7          #include "reg51.h"       //包含头文件
+   8          
+   9          #define uchar unsigned char
+  10          #define uint  unsigned int
+  11          
+  12          sbit duiguan=P2^0;       //定义红外对管检测IO
+  13          //**************************************************************************************************
+  14          //主函数
+  15          //**************************************************************************************************
+  16          main()
+  17          {
+  18   1        while(1)          //循环 
+  19   1        {
+  20   2          duiguan=1;      //初始化i/0口
+  21   2          if(duiguan==1)  //判断对管间是否被遮挡
+  22   2          {
+  23   3            P1=0x00;     //点亮8位发光二极管
+  24   3          }
+  25   2          else
+  26   2          {
+  27   3            P1=0xff;     //熄灭8位发光二极管
+  28   3          }
+  29   2        }
+  30   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     15    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

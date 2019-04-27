@@ -1,0 +1,16 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\Administrator\Desktop\3 实验教程及配套源码\2 数码管\EX2.4 8位显示0~F\smg_0~F.uvproj
+Project File Date:  04/15/2017
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(31): warning C290: missing return value
+linking...
+Program Size: data=9.0 xdata=0 code=95
+creating hex file from "smg_0~F"...
+"smg_0~F" - 0 Error(s), 1 Warning(s).

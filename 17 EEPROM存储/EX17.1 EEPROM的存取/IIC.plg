@@ -1,0 +1,21 @@
+<html>
+<body>
+<pre>
+<h1>礦ision2 Build Log</h1>
+<h2>Project:</h2>
+H:\资料备份2012-7-5\产品营销\客户订单\合肥\定制硬件光盘\51\51开发板光盘\3 实验教程及配套源码\17 EEPROM存储\EX17.1 EEPROM的存取\IIC.uv2
+Project File Date:  09/01/2011
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling main.c...
+linking...
+Program Size: data=9.1 xdata=0 code=265
+creating hex file from "IIC"...
+"IIC" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+Program Size: data=9.1 xdata=0 code=265
+creating hex file from "IIC"...
+"IIC" - 0 Error(s), 0 Warning(s).

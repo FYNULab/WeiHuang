@@ -1,0 +1,8 @@
+"STARTUP.obj",
+"main.obj",
+"key.obj",
+"smg.obj",
+"mod1.obj",
+"mod2.obj" 
+TO "main" 
+RAMSIZE(256) 

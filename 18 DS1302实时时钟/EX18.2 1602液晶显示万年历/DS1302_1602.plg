@@ -1,0 +1,23 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+F:\张文\炜煌电子51开发板光盘\3 实验教程及配套源码\18 DS1302实时时钟\EX18.2 1602液晶显示万年历\DS1302_1602.uvproj
+Project File Date:  11/21/2015
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling main.c...
+compiling 1602.c...
+1602.C(26): warning C290: missing return value
+1602.C(38): warning C290: missing return value
+1602.C(50): warning C290: missing return value
+1602.C(89): warning C290: missing return value
+1602.C(119): warning C290: missing return value
+1602.C(129): warning C290: missing return value
+compiling ds1302.c...
+linking...
+Program Size: data=31.0 xdata=0 code=889
+creating hex file from "DS1302_1602"...
+"DS1302_1602" - 0 Error(s), 6 Warning(s).

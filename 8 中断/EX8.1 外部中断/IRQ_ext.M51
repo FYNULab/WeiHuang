@@ -1,0 +1,81 @@
+BL51 BANKED LINKER/LOCATER V5.03                                                        07/28/2012  15:59:14  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V5.03, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE main.obj TO IRQ_ext RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  main.obj (MAIN)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  IRQ_ext (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0001H     UNIT         ?DT?MAIN
+            IDATA   0009H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0003H     ABSOLUTE     
+            CODE    0006H     000CH     UNIT         ?PR?INT0?MAIN
+            CODE    0012H     000CH     UNIT         ?C_C51STARTUP
+            CODE    001EH     0008H     UNIT         ?PR?MAIN?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   IRQ_ext (MAIN)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  IRQ_ext (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  B:00A8H.7       PUBLIC        EA
+  C:001EH         PUBLIC        main
+  B:00A8H.0       PUBLIC        EX0
+  B:0088H.0       PUBLIC        IT0
+  D:0008H         PUBLIC        num
+  C:0006H         PUBLIC        int0
+  -------         PROC          INT0
+BL51 BANKED LINKER/LOCATER V5.03                                                      07/28/2012  15:59:14  PAGE 2
+
+
+  C:0006H         LINE#         17
+  C:0008H         LINE#         19
+  C:000AH         LINE#         20
+  C:000FH         LINE#         21
+  -------         ENDPROC       INT0
+  -------         PROC          MAIN
+  C:001EH         LINE#         25
+  C:001EH         LINE#         26
+  C:001EH         LINE#         27
+  C:0020H         LINE#         28
+  C:0022H         LINE#         29
+  C:0024H         LINE#         31
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+Program Size: data=10.0 xdata=0 code=38
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
